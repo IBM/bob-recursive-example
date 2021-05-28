@@ -1,0 +1,63 @@
+     A*%%TS  SD  20161128  161956  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      REF(*LIBL/CUSTOMER)
+     A                                      INDARA
+     A                                      PRINT
+     A                                      ERRSFL
+     A                                      CA03(03)
+     A                                      CA12(12)
+     A          R SFL01                     SFL
+     A*%%TS  SD  20161128  161956  VTAQUIN     REL-V7R1M0  5770-WDS
+     A  33                                  SFLNXTCHG
+     A            OPT01          1Y 0B  8  3
+     A  34                                  DSPATR(RI)
+     A  34                                  DSPATR(PC)
+     A                                      EDTCDE(Z)
+     A            CUID      R        O  8  5REFFLD(FCUST/CUID *LIBL/CUSTOMER)
+     A            CUSTNM    R        O  8 11REFFLD(FCUST/CUSTNM *LIBL/CUSTOMER)
+     A            CUCITY    R        O  8 42REFFLD(FCUST/CUCITY *LIBL/CUSTOMER)
+     A            CUCOUN    R        O  8 73REFFLD(FCUST/CUCOUN *LIBL/CUSTOMER)
+     A          R CTL01                     SFLCTL(SFL01)
+     A*%%TS  SD  20161128  161956  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      CF08(08)
+     A N80                                  PAGEDOWN(25 'dynamic subfile')
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  30                                  SFLCLR
+     A  80                                  SFLEND(*MORE)
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0014)
+     A  35                                  SFLMSG('INVALID OPTION' 35)
+     A  36                                  SFLMSG('ONLY ONE SELECTION' 36)
+     A            RRB01          4S 0H      SFLRCDNBR
+     A                                  1 32'Select a Customer'
+     A                                      DSPATR(HI)
+     A                                  4  3'Make a selection. Press Enter'
+     A                                      COLOR(BLU)
+     A                                  5  5'1=Select'
+     A                                      COLOR(BLU)
+     A                                  7  2'Opt'
+     A                                      DSPATR(HI)
+     A                                  7  6'Code'
+     A                                      DSPATR(HI)
+     A                                  1  2'CUS301'
+     A                                      COLOR(BLU)
+     A                                  7 11'Name'
+     A                                      DSPATR(HI)
+     A                                  7 42'City'
+     A                                      DSPATR(HI)
+     A                                  2  3'Name contains  . . . :'
+     A                                  3  3'City contains  . . . :'
+     A            SRCHNAME      10   B  2 27
+     A            SRCHCITY      10   B  3 27
+     A          R KEY01
+     A*%%TS  SD  20161128  161956  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      OVERLAY
+     A                                 23  2'F3=Exit'
+     A                                      COLOR(BLU)
+     A  40                             23 14'F8=By code'
+     A                                      COLOR(BLU)
+     A                                 23 14'F12=Cancel'
+     A                                      COLOR(BLU)

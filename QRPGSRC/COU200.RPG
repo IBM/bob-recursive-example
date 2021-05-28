@@ -1,0 +1,135 @@
+     FCOU200D CF  E                    WORKSTN      KINFDS INFDS
+     F                                        RRN01 KSFILE SFL01
+      *
+     FCOUNTRY UF  E           K        DISK
+      * SCREEN INFORMATION DS.
+     IINFDS       DS
+     I                                    B 378 3790LRRN
+      *
+     C           LOOP      TAG
+     C           PANEL     CASEQ1         PNL01
+     C           PANEL     CASEQ2         PNL02
+     C                     ENDCS
+     C           PANEL     CABEQ0         ENDPGM
+     C                     GOTO LOOP
+     C           ENDPGM    TAG
+     C                     SETON                     LR
+      *
+     C           PNL01     BEGSR
+     C           STEP01    CASEQ'PRP'     S01PRP
+     C           STEP01    CASEQ'LOD'     S01LOD
+     C           STEP01    CASEQ'DSP'     S01DSP
+     C           STEP01    CASEQ'KEY'     S01KEY
+     C           STEP01    CASEQ'CHK'     S01CHK
+     C           STEP01    CASEQ'ACT'     S01ACT
+     C                     ENDCS
+     C                     ENDSR
+     C           S01PRP    BEGSR
+     C                     Z-ADD0         RRN01   40
+     C                     SETON                     30
+     C                     WRITECTL01
+     C                     SETOF                     30
+     C                     MOVE 'LOD'     STEP01
+     C                     ENDSR
+     C           S01LOD    BEGSR
+     C           RRN01     ADD  1         RRB01
+     C           *LOVAL    SETLLCOUNTRY
+     C                     READ COUNTRY             N    80
+     C           *IN80     DOWEQ*OFF
+     C                     ADD  1         RRN01
+     C                     WRITESFL01
+     C                     READ COUNTRY             N    80
+     C                     ENDDO
+     C                     MOVE 'DSP'     STEP01
+     C                     ENDSR
+     C           S01DSP    BEGSR
+     C                     SETON                         32
+     C           RRN01     COMP 0                    31
+     C                     WRITEKEY01
+     C                     EXFMTCTL01
+     C           LRRN      IFGT 0
+     C                     Z-ADDLRRN      RRB01
+     C                     ENDIF
+     C                     MOVE 'KEY'     STEP01
+     C                     ENDSR
+     C           S01KEY    BEGSR
+     C                     SELEC
+     C           *IN03     WHEQ *ON
+     C                     Z-ADD0         PANEL
+     C           *IN12     WHEQ *ON
+     C                     Z-ADD0         PANEL
+     C                     OTHER
+     C                     MOVE 'CHK'     STEP01
+     C                     ENDSL
+     C                     ENDSR
+     C           S01CHK    BEGSR
+     C                     MOVE 'ACT'     STEP01
+     C                     MOVE *OFF      ERR01   1
+     C                     MOVE *ON       *IN33
+     C                     READCSFL01                    99
+     C           *IN99     DOWEQ*OFF
+     C           OPT01     IFNE 0
+     C           OPT01     ANDNE2
+     C                     MOVE 'DSP'     STEP01
+     C                     SETON                     3435
+     C           ERR01     IFEQ *OFF
+     C                     Z-ADDRRN01     RRB01
+     C                     MOVE *ON       ERR01
+     C                     ENDIF
+     C                     ENDIF
+     C                     UPDATSFL01
+     C                     SETOF                     34
+     C                     READCSFL01                    99
+     C                     ENDDO
+     C                     SETOF                     33
+     C                     ENDSR
+     C           S01ACT    BEGSR
+     C                     READCSFL01                    99
+     C                     SELEC
+     C           *IN99     WHEQ *ON
+     C                     MOVE 'DSP'     STEP01
+     C           OPT01     WHEQ 2
+     C                     Z-ADD2         PANEL
+     C                     MOVE 'PRP'     STEP02
+     C                     Z-ADD0         OPT01
+     C                     UPDATSFL01
+     C                     ENDSL
+     C                     ENDSR
+     C           PNL02     BEGSR
+     C           STEP02    CASEQ'PRP'     S02PRP
+     C           STEP02    CASEQ'DSP'     S02DSP
+     C           STEP02    CASEQ'KEY'     S02KEY
+     C           STEP02    CASEQ'CHK'     S02CHK
+     C           STEP02    CASEQ'ACT'     S02ACT
+     C                     ENDCS
+     C                     ENDSR
+     C           S02PRP    BEGSR
+     C                     MOVE 'DSP'     STEP02
+     C           COID      CHAINCOUNTRY              98
+     C                     ENDSR
+     C           S02DSP    BEGSR
+     C                     EXFMTFMT02
+     C                     MOVE 'KEY'     STEP02
+     C                     ENDSR
+     C           S02KEY    BEGSR
+     C                     SELEC
+     C           *IN03     WHEQ *ON
+     C                     GOTO ENDPGM
+     C           *IN12     WHEQ *ON
+     C                     Z-ADD1         PANEL
+     C                     OTHER
+     C                     MOVE 'CHK'     STEP02
+     C                     ENDSL
+     C                     ENDSR
+     C           S02CHK    BEGSR
+     C                     MOVE 'ACT'     STEP02
+     C                     ENDSR
+     C           S02ACT    BEGSR
+     C                     UPDATFCOUN
+     C                     Z-ADD1         PANEL
+     C                     ENDSR
+     C           *INZSR    BEGSR
+     C                     Z-ADD1         PANEL   10
+     C                     MOVE 'PRP'     STEP01  3
+     C                     MOVE 'PRP'     STEP02  3
+     C                     ENDSR

@@ -1,0 +1,87 @@
+     A*%%TS  SD  20161201  121434  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      CA03(03)
+     A                                      CA12(12)
+     A                                      PRINT
+     A                                      ERRSFL
+     A          R SFL01                     SFL
+     A*%%TS  SD  20161104  143857  VTAQUIN     REL-V7R1M0  5770-WDS
+     A  33                                  SFLNXTCHG
+     A            OPT01          2Y 0B  7  3
+     A  34                                  DSPATR(RI)
+     A  34                                  DSPATR(PC)
+     A                                      EDTCDE(Z)
+     A            APREF     R        O  7 64REFFLD(FARPR/APREF *LIBL/ARTIPROV)
+     A            APARID    R        O  7  6REFFLD(APARID ARTIPROV)
+     A            ARDESC    R        O  7 13REFFLD(ARDESC ARTICLE)
+     A            APPRICE   R        H      REFFLD(FARPR/APPRICE *LIBL/ARTIPROV)
+     A          R CTL01                     SFLCTL(SFL01)
+     A*%%TS  SD  20161104  143857  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0014)
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  30                                  SFLCLR
+     A  80                                  SFLEND(*MORE)
+     A  35                                  SFLMSG('Invalid Option' 35)
+     A            RRB01          4S 0H      SFLRCDNBR
+     A                                  1  2'ART202-1'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type options, press Enter.'
+     A                                      COLOR(BLU)
+     A                                  6  2'Opt'
+     A                                      DSPATR(HI)
+     A                                  1 27'Work with Article Providers'
+     A                                      DSPATR(HI)
+     A                                  1 68DATE
+     A                                      EDTCDE(Y)
+     A                                  2 68TIME
+     A                                  4  7'2=Edit'
+     A                                      COLOR(BLU)
+     A                                  6 64'Reference'
+     A                                      DSPATR(HI)
+     A            APPRID    R        O  2  4REFFLD(FARPR/APPRID *LIBL/ARTIPROV)
+     A            PROVNM    R        O  2 10REFFLD(FPROV/PROVNM *LIBL/PROVIDER)
+     A                                  6  6'Article'
+     A                                      DSPATR(HI)
+     A          R KEY01
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 19'F12=Cancel'
+     A                                      COLOR(BLU)
+
+     A          R FMT02
+     A*%%TS  SD  20161025  170547  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      CF04(04 'Prompt')
+     A                                  1  2'ART202-2'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type choices, press Enter.'
+     A                                      COLOR(BLU)
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 19'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                  1 32'ARTIPROV definition'
+     A                                      DSPATR(HI)
+     A                                  5  4'Article  . . . . . . . :'
+     A            ARDESC    R        O  6 29REFFLD(ARDESC ARTICLE)
+     A                                  9  4'Unit Price   . . . . . .'
+     A                                 10  4'Provider Reference . . .'
+     A                                  7  4'Provider'
+     A                                  7 13'.'
+     A                                  7 15'.'
+     A                                  7 17'.'
+     A                                  7 19'.'
+     A                                  7 21'.'
+     A                                  7 23'.'
+     A                                  7 25'.'
+     A                                  7 27':'
+     A            APARID    R        O  5 29REFFLD(APARID ARTIPROV)
+     A            APPRICE   R        B  9 29REFFLD(FARPR/APPRICE *LIBL/ARTIPROV)
+     A                                      EDTCDE(2)
+     A            APREF     R        B 10 29REFFLD(FARPR/APREF *LIBL/ARTIPROV)
+     A            APPRID    R        O  7 29REFFLD(FARPR/APPRID *LIBL/ARTIPROV)
+     A            PROVNM    R        O  8 29REFFLD(FPROV/PROVNM *LIBL/PROVIDER)

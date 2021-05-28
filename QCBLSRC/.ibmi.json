@@ -1,0 +1,9 @@
+{
+    "version": "0.0.1",
+    "build": [
+        {
+        "objectLocation":"&lib1", // has not changed from parent dir
+        "sourceCcsid":500        
+        }
+    ]
+}

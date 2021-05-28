@@ -1,0 +1,77 @@
+     A*%%TS  SD  20161025  135749  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      PRINT
+     A                                      ERRSFL
+     A                                      CA03(03)
+     A                                      CA12(12)
+     A          R DUMMY
+     A                                      KEEP
+     A                                      ASSUME
+     A                                      OVERLAY
+     A                                      PUTOVR
+     A            FLD001         1   O 23 79
+     A          R SFL01                     SFL
+     A*%%TS  SD  20161025  121722  VTAQUIN     REL-V7R1M0  5770-WDS
+     A  33                                  SFLNXTCHG
+     A            OPT01          1Y 0B  6  3
+     A  34                                  DSPATR(RI)
+     A  34                                  DSPATR(PC)
+     A                                      EDTCDE(Z)
+     A            COID      R        O  6  5REFFLD(COID COUNTRY)
+     A            COUNTR    R        O  6  9REFFLD(COUNTR COUNTRY)
+     A          R CTL01                     SFLCTL(SFL01)
+     A*%%TS  SD  20161025  135749  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      SFLSIZ(0011)
+     A                                      SFLPAG(0010)
+     A                                      WINDOW(KEY01)
+     A                                      CF08(08)
+     A N80                                  PAGEDOWN(25 'dynamic subfile')
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  30                                  SFLCLR
+     A  80                                  SFLEND(*MORE)
+     A  35                                  SFLMSG('INVALID OPTION' 35)
+     A  36                                  SFLMSG('ONLY ONE SELECTION' 36)
+     A            RRB01          4S 0H      SFLRCDNBR
+     A                                  1 22'Select a Country Code'
+     A                                      DSPATR(HI)
+     A                                  2  2'Make a selection. Press Enter'
+     A                                      COLOR(BLU)
+     A                                  3  3'1=Select'
+     A                                      COLOR(BLU)
+     A                                  4  2'Opt'
+     A                                      DSPATR(HI)
+     A            OPTC1          1Y 0B  5  3EDTCDE(Z)
+     A  41                                  ERRMSG('Invalid option' 41)
+     A  42                                  ERRMSG('Position to not available w-
+     A                                      ith selection pending' 42)
+     A                                  3 19'8=Position to'
+     A                                      COLOR(BLU)
+     A                                  4  6'Code'
+     A                                      DSPATR(HI)
+     A                                  4 13'Description'
+     A                                      DSPATR(HI)
+     A            POSCOD    R        B  5  5REFFLD(COID COUNTRY)
+     A  40                                  DSPATR(ND)
+     A  40                                  DSPATR(PR)
+     A                                  1  1'COU301'
+     A                                      COLOR(BLU)
+     A            POSDES    R        B  5  9REFFLD(COUNTR COUNTRY)
+     A N40                                  DSPATR(ND)
+     A N40                                  DSPATR(PR)
+     A                                      CHECK(LC)
+     A          R KEY01
+     A*%%TS  SD  20161025  135749  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      OVERLAY
+     A                                      WINDOW(4 25 18 42)
+     A                                 17  2'F3=Exit'
+     A                                      COLOR(BLU)
+     A  40                             17 14'F8=By code'
+     A                                      COLOR(BLU)
+     A N40                             17 14'F8=By desc.'
+     A                                      COLOR(BLU)
+     A                                 17 27'F12=Cancel'
+     A                                      COLOR(BLU)

@@ -1,0 +1,88 @@
+     A*%%TS  SD  20161201  092910  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      CA03(03)
+     A                                      CA12(12)
+     A                                      PRINT
+     A                                      ERRSFL
+     A          R SFL01                     SFL
+     A*%%TS  SD  20161201  092045  VTAQUIN     REL-V7R1M0  5770-WDS
+     A  33                                  SFLNXTCHG
+     A            ODLINE    R        O  8  2REFFLD(FDETO/ODLINE *LIBL/DETORD)
+     A                                      EDTCDE(Z)
+     A            ODARID    R        O  8  8REFFLD(FDETO/ODARID *LIBL/DETORD)
+     A            ODQTY     R        O  8 15REFFLD(FDETO/ODQTY *LIBL/DETORD)
+     A                                      EDTCDE(2)
+     A            ODQTYLIV  R        O  8 22REFFLD(FDETO/ODQTYLIV *LIBL/DETORD)
+     A                                      EDTCDE(2)
+     A            ODPRICE   R        O  8 40REFFLD(FDETO/ODPRICE *LIBL/DETORD)
+     A                                      EDTCDE(2)
+     A            ODTOT     R        O  8 50REFFLD(FDETO/ODTOT *LIBL/DETORD)
+     A                                      EDTCDE(2)
+     A            ODTOTVAT  R        O  8 63REFFLD(FDETO/ODTOTVAT *LIBL/DETORD)
+     A                                      EDTCDE(2)
+     A            ARDESC    R        O  9  8REFFLD(FARTI/ARDESC *LIBL/ARTICLE)
+     A          R CTL01                     SFLCTL(SFL01)
+     A*%%TS  SD  20161201  092850  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      CF06(06 'Create')
+     A                                      CA05(05 'Refresh')
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  30                                  SFLCLR
+     A  80                                  SFLEND(*MORE)
+     A                                      SFLDROP(CF11)
+     A                                      SFLSIZ(0007)
+     A                                      SFLPAG(0006)
+     A  35                                  SFLMSG('Invalid Option' 35)
+     A            RRB01          4S 0H      SFLRCDNBR
+     A                                  1  2'ORD202-1'
+     A                                      COLOR(BLU)
+     A                                  1 27'Display a Customer Orders'
+     A                                      DSPATR(HI)
+     A                                  1 68DATE
+     A                                      EDTCDE(Y)
+     A                                  2 68TIME
+     A                                  2  2'Order . . .'
+     A            ORID      R        O  2 15REFFLD(FORDE/ORID *LIBL/ORDER)
+     A            ORYEAR    R        O  2 22REFFLD(FORDE/ORYEAR *LIBL/ORDER)
+     A                                  3  2'Customer  .'
+     A            CUID      R        O  3 15REFFLD(FCUST/CUID *LIBL/CUSTOMER)
+     A            CUSTNM    R        O  3 22REFFLD(FCUST/CUSTNM *LIBL/CUSTOMER)
+     A            DATORD          L  O  4 15DATFMT(*DMY)
+     A            DATLIV          L  O  5 15DATFMT(*DMY)
+     A                                      MAPVAL(('01/01/40' *BLANK))
+     A            DATCLO          L  O  6 15DATFMT(*DMY)
+     A                                      MAPVAL(('01/01/40' *BLANK))
+     A                                  4  2'Création  .'
+     A                                  5  2'Delivery  .'
+     A                                  6  2'Close . . .'
+     A                                  7  2'Line'
+     A                                      DSPATR(HI)
+     A                                  7  7' Art.'
+     A                                      DSPATR(HI)
+     A                                  7 15'Qty '
+     A                                      DSPATR(HI)
+     A                                  7 22'Deliver'
+     A                                      DSPATR(HI)
+     A                                  7 41'Un.Price'
+     A                                      DSPATR(HI)
+     A                                  7 54'Total'
+     A                                      DSPATR(HI)
+     A                                  7 65'With VAT'
+     A                                      DSPATR(HI)
+     A          R KEY01
+     A*%%TS  SD  20161201  092910  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 32'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                 23 17'F11=Detail'
+     A                                      COLOR(BLU)
+     A            TOT       R        O 22 50REFFLD(FDETO/ODTOT *LIBL/DETORD)
+     A                                      DSPATR(HI)
+     A            TOTVAT    R        O 22 63REFFLD(FDETO/ODTOTVAT *LIBL/DETORD)
+     A                                      DSPATR(HI)
+     A                                 21 50'============ ============'
+     A                                      DSPATR(HI)

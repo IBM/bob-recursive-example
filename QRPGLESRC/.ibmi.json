@@ -1,0 +1,34 @@
+{
+    "version": "0.0.1",
+    "build": 
+        {
+        "objectLocation":"&lib1",
+        "sourceCcsid":37        
+        },
+    "sourceAttributes" : [  
+        {
+        "name": "ART200.SQLRPGLE",
+        "objectType": "*PGM",
+        "text": "Work with article"
+        },
+        {
+        "name": "ART201.RPGLE",
+        "objectType": "*PGM",
+        "text": "Work with article"
+        },
+        {
+        "name": "ART202.RPGLE",
+        "objectType": "*PGM",
+        "text": "Function Article"
+        },
+        {
+        "name": "ART300.RPGLE",
+        "objectType": "*MODULE", // not needed as it is default
+        "text": "Function Article"
+        },   
+        {
+// etc,
+        }
+
+    ]
+}

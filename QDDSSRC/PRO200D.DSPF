@@ -1,0 +1,100 @@
+     A*%%TS  SD  20161201  160417  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      CA03(03)
+     A                                      CA12(12)
+     A                                      PRINT
+     A                                      ERRSFL
+     A          R SFL01                     SFL
+     A*%%TS  SD  20161025  103254  VTAQUIN     REL-V7R1M0  5770-WDS
+     A  33                                  SFLNXTCHG
+     A            OPT01          2Y 0B  7  3
+     A  34                                  DSPATR(RI)
+     A  34                                  DSPATR(PC)
+     A                                      EDTCDE(Z)
+     A            PRID      R        O  7  7REFFLD( PRID  PROVIDER)
+     A            PROVNM    R        O  7 13REFFLD( PROVNM  PROVIDER)
+     A            PRCITY    R        O  7 44REFFLD( PRCITY PROVIDER)
+     A            PRDEL     R        O  7 75REFFLD( PRDEL  PROVIDER)
+     A          R CTL01                     SFLCTL(SFL01)
+     A*%%TS  SD  20161201  160417  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0014)
+     A N80                                  PAGEDOWN(25 'dynamic subfile')
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  30                                  SFLCLR
+     A  80                                  SFLEND(*MORE)
+     A  35                                  SFLMSG('Invalid Option' 35)
+     A            RRB01          4S 0H      SFLRCDNBR
+     A                                  1  2'PRO200-1'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type options, press Enter.'
+     A                                      COLOR(BLU)
+     A                                  6  3'Opt'
+     A                                      DSPATR(HI)
+     A                                  1 31'Work with Providers'
+     A                                      DSPATR(HI)
+     A                                  1 70DATE
+     A                                      EDTCDE(Y)
+     A                                  2 70TIME
+     A                                  4  6'2=Edit'
+     A                                      COLOR(BLU)
+     A                                  4 17'5=Items '
+     A                                      COLOR(BLU)
+     A                                  6  7'Id'
+     A                                      DSPATR(HI)
+     A                                  6 13'Provider'
+     A                                      DSPATR(HI)
+     A                                  6 44'City'
+     A                                      DSPATR(HI)
+     A                                  6 74'Del'
+     A                                      DSPATR(HI)
+     A                                  4 30'7=Prepare Order'
+     A                                      COLOR(BLU)
+     A          R KEY01
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 19'F12=Cancel'
+     A                                      COLOR(BLU)
+
+     A          R FMT02
+     A*%%TS  SD  20161025  163855  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      CF04(04)
+     A                                  1  2'PRO200-2'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type choices, press Enter.'
+     A                                      COLOR(BLU)
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 19'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                  1 34'Edit PROVIDER'
+     A                                      DSPATR(HI)
+     A                                  1 70DATE
+     A                                      EDTCDE(Y)
+     A                                  2 70TIME
+     A                                  5  3'Provider Id . . . . . :'
+     A                                  6  3'Name  . . . . . . . . .'
+     A            PRID      R        O  5 27REFFLD(PRID PROVIDER)
+     A            PROVNM    R        B  6 27REFFLD(PROVNM PROVIDER)
+     A  41                                  ERRMSG('The name is mandatory' 41)
+     A                                  7  3'Phone . . . . . . . . .'
+     A                                  8  3'Vat N°  . . . . . . . .'
+     A                                  9  3'eMail . . . . . . . . .'
+     A            PRMAIL    R        B  9 27REFFLD(PRMAIL PROVIDER)
+     A            PRPHONE   R        B  7 27REFFLD(PRPHONE PROVIDER)
+     A            PRVAT     R        B  8 27REFFLD(PRVAT PROVIDER)
+     A                                 10  3'Address . . . . . . . .'
+     A            PRLINE1   R        B 10 27REFFLD(PRLINE1 PROVIDER)
+     A            PRLINE2   R        B 11 27REFFLD(PRLINE2 PROVIDER)
+     A            PRLINE3   R        B 12 27REFFLD(PRLINE3 PROVIDER)
+     A            PRZIP     R        B 13 27REFFLD(PRZIP PROVIDER)
+     A            PRCITY    R        B 13 39REFFLD(PRCITY PROVIDER)
+     A                                 13  3'Postal Code & City  . .'
+     A                                 14  3'Country Code  . . . . .'
+     A            PRCOUN    R        B 14 27REFFLD(PRCOUN PROVIDER)
+     A  40                                  ERRMSGID(ERR0002 *LIBL/SAMMSGF 40)
+     A            CONAME        30A  O 14 31

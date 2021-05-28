@@ -1,0 +1,93 @@
+     A*%%TS  SD  20161221  160008  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      CA03(03)
+     A                                      CA12(12)
+     A                                      PRINT
+     A                                      ERRSFL
+     A          R SFL01                     SFL
+     A*%%TS  SD  20161221  160008  VTAQUIN     REL-V7R1M0  5770-WDS
+     A  33                                  SFLNXTCHG
+     A            OPT01          2Y 0B  7  3
+     A  34                                  DSPATR(RI)
+     A  34                                  DSPATR(PC)
+     A                                      EDTCDE(Z)
+     A            ORID      R        O  7  6REFFLD(FORDE/ORID *LIBL/ORDER)
+     A                                      EDTCDE(2)
+     A            ORYEAR    R        O  7 14REFFLD(FORDE/ORYEAR *LIBL/ORDER)
+     A                                      EDTCDE(Z)
+     A            DATCLO          L  O  7 57DATFMT(*JOB)
+     A                                      MAPVAL(('1940-01-01' *BLANK))
+     A            SUMORD        11Y 2O  7 31EDTCDE(2)
+     A            CUID      R        O  8  6REFFLD(FCUST/CUID *LIBL/CUSTOMER)
+     A            CUSTNM    R        O  8 12REFFLD(FCUST/CUSTNM *LIBL/CUSTOMER)
+     A            DATORD          L  O  7 19DATFMT(*JOB)
+     A            DATLIV          L  O  7 46DATFMT(*JOB)
+     A                                      MAPVAL(('1940-01-01' *BLANK))
+     A          R CTL01                     SFLCTL(SFL01)
+     A*%%TS  SD  20161221  160008  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0007)
+     A N80                                  PAGEDOWN(25 'dynamic subfile')
+     A                                      CF06(06 'Create')
+     A                                      CA05(05 'Refresh')
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  30                                  SFLCLR
+     A  80                                  SFLEND(*MORE)
+     A                                      SFLDROP(CF11)
+     A  35                                  SFLMSG('Invalid Option' 35)
+     A  36                                  SFLMSG('Closed order can not be edi-
+     A                                      ted or deleted' 36)
+     A  37                                  SFLMSG('Order whith deliveries can -
+     A                                      not be deleted' 37)
+     A            RRB01          4S 0H      SFLRCDNBR
+     A                                  1  2'ORD200-1'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type options, press Enter.'
+     A                                      COLOR(BLU)
+     A                                  6  2'Opt'
+     A                                      DSPATR(HI)
+     A                                  1 27'Work with Customer Orders'
+     A                                      DSPATR(HI)
+     A                                  1 68DATE
+     A                                      EDTCDE(Y)
+     A                                  2 68TIME
+     A                                  4  7'2=Edit'
+     A                                      COLOR(BLU)
+     A                                  4 30'5=Display'
+     A                                      COLOR(BLU)
+     A                                  4 18'4=Delete'
+     A                                      COLOR(BLU)
+     A                                  4 43'6=Print'
+     A                                      COLOR(BLU)
+     A                                  4 56'7=Close'
+     A                                      COLOR(BLU)
+     A                                  6  8'Order'
+     A                                      DSPATR(HI)
+     A                                  6 14'Year'
+     A                                      DSPATR(HI)
+     A                                  6 19'Creation'
+     A                                      DSPATR(HI)
+     A                                  6 46'Delivery'
+     A                                      DSPATR(HI)
+     A                                  6 57'Close'
+     A                                      DSPATR(HI)
+     A                                  6 37'Value'
+     A                                      DSPATR(HI)
+     A                                  4 68'8=Deliver'
+     A                                      COLOR(BLU)
+     A          R KEY01
+     A*%%TS  SD  20161209  163300  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 55'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                 23 42'F11=Detail'
+     A                                      COLOR(BLU)
+     A                                 23 14'F5=Refresh'
+     A                                      COLOR(BLU)
+     A                                 23 28'F6=Create'
+     A                                      COLOR(BLU)

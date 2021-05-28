@@ -1,0 +1,157 @@
+:pnlgrp dftmsgf=qcpfmsg
+        submsgf=sammsgf.
+:copyr.
+(C) Copyright Arcad Software, 2016.
+:import name='*'
+        pnlgrp=SAMHELP.
+:var name=Zmenu.
+:KEYL     NAME=key01
+          HELP=help.
+:KEYI     KEY=F1
+          HELP=help
+          ACTION=HELP.
+:KEYI     KEY=F3
+          HELP=help
+          PRIORITY=25
+          ACTION='exit set'.
+F3=Exit
+:KEYI     KEY=F4
+          HELP=help
+          PRIORITY=30
+          ACTION=PROMPT.
+F4=Prompt
+:KEYI     KEY=F6
+          HELP=help
+          PRIORITY=25
+          ACTION='cmd dspmsg'.
+F6=Messages
+:KEYI     KEY=F9
+          help=help
+          ACTION=retrieve
+          PRIORITY=30.
+F9=Retrieve
+:KEYI     KEY=F10
+          help=help
+          PRIORITY=40
+          ACTION='cmd dspjoblog'.
+F10=Job log
+:KEYI     KEY=F12
+          help=help
+          PRIORITY=30
+          ACTION='cancel set'.
+F12=Cancel
+:KEYI     KEY=F14
+          help=help
+          PRIORITY=25
+          ACTION='cmd wrksbmjob *user'.
+F14=Submitted jobs
+:KEYI     KEY=F24
+          help=help
+          ACTION=MOREKEYS.
+F24=More keys
+:KEYI     KEY=ENTER
+          help=help
+          ACTION=ENTER.
+:KEYI     KEY=HELP
+          HELP=help
+          ACTION=HELP.
+:KEYI     KEY=PAGEDOWN
+          help=help
+          ACTION=PAGEDOWN.
+:KEYI     KEY=PAGEUP
+          help=help
+          ACTION=PAGEUP.
+:KEYI     KEY=PRINT
+          help=help
+          ACTION=PRINT.
+:EKEYL.
+:panel name=SAMPLE
+help=h
+keyl=key01
+Enter='msg cpd9817 qcpfmsg'
+panelid=zmenu
+topsep=sysnam.
+Arcad Sample Application
+:menu depth='*'
+scroll=Yes
+Botsep=none.
+:Topinst.Select one of the following:
+:menugrp.Master files
+:menui option=1
+       action='cmd call ART200'
+       help=srt200.
+Work with Articles                                          ART200
+:menui option=2
+       action='cmd call CUS200'
+       help=cus200.
+Work with Customers                                         CUS200
+:menui option=3
+       action='cmd call ORD201'
+       help=cus200.
+Work with Customer Orders                                   ORD201
+:menui option=4
+       action='cmd call pro200'
+       help=pro200.
+Work with Providers                                         PRO200
+:menui option=5
+       action='cmd call pro201'
+       help=pro200.
+Display Providers                                           PRO201
+:menui option=6
+       action='cmd call ORD100C2'
+       help=ord100.
+Create a Customer Order.                                    ORD100
+:emenugrp.
+:menugrp.Reports
+:menui  option=10
+        action='cmd call pro203'
+        help=nohelp.
+Article to purchase                                         PRO203
+:menui  option=11
+        action='cmd STRQMQRY QMQRY(CUSQRY) QMFORM(CUSQRYFMT)'
+        help=nohelp.
+Customer with Open Order                              QMQRY:CUSQRY
+:menui  option=12
+        action='cmd STRQMQRY QMQRY(ARTQRY) '
+        help=nohelp.
+Article by Last Order Date                            QMQRY:ARTQRY
+:emenugrp.
+:menugrp.Utilities
+:menui  option=20
+        action='cmd call par200'
+        help=nohelp.
+Work with Parameters                                        PAR200
+:menui  option=21
+        action='cmd call cou200'
+        help=nohelp.
+Work with countries                                         COU200
+:menui  option=80
+        action='cmd call ord900'
+        help=nohelp.
+Reset LASTORDNO                                             ORD900
+:menui  option=81
+        action='cmd call ord901'
+        help=nohelp.
+Reset Order dates to current                                ORD901
+:menui  option=82
+        action='cmd call art801'
+        help=nohelp.
+Reset Summary Fields                                 SQLPRC:ART801
+:menui  option=83
+        action='cmd call par201'
+        help=nohelp.
+Work with IFS output                                        PAR201
+:menui  option=84
+        action='cmd adspusrspc samlog'
+        help=nohelp.
+Display Application log
+:emenugrp.
+:menui  option=90
+        action='cmd signoff'
+        help=nohelp.
+Signoff
+:emenu.
+:cmdline size=long.
+Selection or command
+:epanel.
+:epnlgrp.

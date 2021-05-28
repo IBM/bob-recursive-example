@@ -1,0 +1,9 @@
+                                            UNIQUE
+                                            REF(SAMREF)
+                R FCOUN
+                  COID      R
+                  COUNTR    R
+                  COISO          3
+                  COISO5         3
+                  COISO1         3
+                K COID

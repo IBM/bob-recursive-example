@@ -1,0 +1,16 @@
+                                            REF(SAMREF)
+                                            UNIQUE
+                R FFAMI
+                  FAID      R
+                  FADESC    R
+                  FAVATCD   R               REFFLD(VATCODE)
+                                            TEXT('DFT VAT CODE')
+                                            COLHDG('DFT' 'VAT' 'CD')
+                  FACREA          L         TEXT('CREATION DATE')
+                                            COLHDG('CREAETION' 'DATE')
+                  FAMOD           Z         TEXT('LAST MODIFICATION')
+                                            COLHDG('LAST' 'MODIFICATION')
+                  FAMODID       10          TEXT('LAS MOD BY')
+                                            COLHDG('LAST' 'MODIF.' 'BY')
+                  FADEL     R               REFFLD(DLCODE)
+                K FAID

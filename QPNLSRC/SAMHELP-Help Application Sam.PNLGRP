@@ -1,0 +1,18 @@
+:pnlgrp.
+:help name=ART200.Work with Articles
+:p.Text
+:ehelp.
+:help name=CUS200.Work with Customers
+:p.Text
+:ehelp.
+:help name=PRO200.Work with Provider
+:p.Text
+:ehelp.
+:help name=NOHELP.Help
+:p.Help not available
+:ehelp.
+:help name=help.Help
+:p.Help not available
+:ehelp.
+
+:epnlgrp.

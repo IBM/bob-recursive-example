@@ -1,0 +1,148 @@
+     A*%%TS  SD  20161209  094544  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      REF(*LIBL/PARAMETER)
+     A                                      INDARA
+     A                                      CA03(03)
+     A                                      CA12(12)
+     A                                      PRINT
+     A                                      ERRSFL
+     A          R SFL01                     SFL
+     A*%%TS  SD  20161209  092705  VTAQUIN     REL-V7R1M0  5770-WDS
+     A  33                                  SFLNXTCHG
+     A            OPT01          2Y 0B  7  3
+     A  34                                  DSPATR(RI)
+     A  34                                  DSPATR(PC)
+     A                                      EDTCDE(Z)
+     A            PACODE    R        O  7  6REFFLD(FPARAM/PACODE *LIBL/PARAMETE-
+     A                                      R)
+     A            PASUBCODE R        O  7 17REFFLD(FPARAM/PASUBCODE *LIBL/PARAM-
+     A                                      ETER)
+     A            PARM1     R        O  7 28REFFLD(FPARAM/PARM1 *LIBL/PARAMETER)
+     A            PARM3     R        O  7 72REFFLD(FPARAM/PARM3 *LIBL/PARAMETER)
+     A            PARM5     R        O  7 77REFFLD(FPARAM/PARM5 *LIBL/PARAMETER)
+     A            PARM4     R        O  7 75REFFLD(FPARAM/PARM4 *LIBL/PARAMETER)
+     A            PARM2S        32   O  7 39
+     A          R CTL01                     SFLCTL(SFL01)
+     A*%%TS  SD  20161209  094544  VTAQUIN     REL-V7R1M0  5770-WDS
+     A N80                                  PAGEDOWN(25 'dynamic subfile')
+     A                                      CA05(05 'Refresh')
+     A                                      CF06(06 'Create')
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  30                                  SFLCLR
+     A  80                                  SFLEND(*MORE)
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0014)
+     A  35                                  SFLMSG('Invalid Option' 35)
+     A            RRB01          4S 0H      SFLRCDNBR
+     A                                  1  2'PAR200-1'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type options, press Enter.'
+     A                                      COLOR(BLU)
+     A                                  6  2'Opt'
+     A                                      DSPATR(HI)
+     A                                  1 31'Work with Parameters'
+     A                                      DSPATR(HI)
+     A                                  1 70DATE
+     A                                      EDTCDE(Y)
+     A                                      COLOR(BLU)
+     A                                  2 70TIME
+     A                                      COLOR(BLU)
+     A                                  4  6'2=Edit'
+     A                                      COLOR(BLU)
+     A                                  4 17'4=Delete'
+     A                                      COLOR(BLU)
+     A                                  6  6'Code'
+     A                                      DSPATR(HI)
+     A                                  6 17'Sub-Code'
+     A                                      DSPATR(HI)
+     A                                  6 28'1'
+     A                                      DSPATR(HI)
+     A                                  6 39'2'
+     A                                      DSPATR(HI)
+     A                                  6 72'3'
+     A                                      DSPATR(HI)
+     A                                  6 75'4'
+     A                                      DSPATR(HI)
+     A                                  6 79'5'
+     A                                      DSPATR(HI)
+     A          R KEY01
+     A*%%TS  SD  20161209  092705  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 34'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                 23 18'F6=Create'
+     A                                      COLOR(BLU)
+     A          R FMT02
+     A*%%TS  SD  20161209  092705  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                  1  2'PAR200-2'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type choices, press Enter.'
+     A                                      COLOR(BLU)
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 19'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                  1 34'Edit Parameter'
+     A                                      DSPATR(HI)
+     A                                  1 70DATE
+     A                                      EDTCDE(Y)
+     A                                      COLOR(BLU)
+     A                                  2 70TIME
+     A                                      COLOR(BLU)
+     A                                  5  3'Parameter Code  . . . :'
+     A                                  6  3'parameter Sub_code  . :'
+     A                                  7  3'Parameter 1 . . . . . .'
+     A                                  8  3'Parameter 2 . . . . . .'
+     A                                 10  3'Parameter 3 . . . . . .'
+     A                                 11  3'Parameter 4 . . . . . .'
+     A                                 12  3'Parameter 5 . . . . . .'
+     A            PACODE    R        O  5 27REFFLD(FPARAM/PACODE *LIBL/PARAMETE-
+     A                                      R)
+     A            PASUBCODE R        O  6 27REFFLD(FPARAM/PASUBCODE *LIBL/PARAM-
+     A                                      ETER)
+     A            PARM1     R        B  7 27REFFLD(FPARAM/PARM1 *LIBL/PARAMETER)
+     A            PARM2     R        B  8 27REFFLD(FPARAM/PARM2 *LIBL/PARAMETER)
+     A                                      CHECK(LC)
+     A            PARM3     R        B 10 27REFFLD(FPARAM/PARM3 *LIBL/PARAMETER)
+     A            PARM4     R        B 11 27REFFLD(FPARAM/PARM4 *LIBL/PARAMETER)
+     A            PARM5     R        B 12 27REFFLD(FPARAM/PARM5 *LIBL/PARAMETER)
+     A          R FMT03
+     A*%%TS  SD  20161209  092705  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                  1  2'PAR200-3'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type choices, press Enter.'
+     A                                      COLOR(BLU)
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 19'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                  1 33'Create Parameter'
+     A                                      DSPATR(HI)
+     A                                  1 70DATE
+     A                                      EDTCDE(Y)
+     A                                      COLOR(BLU)
+     A                                  2 70TIME
+     A                                      COLOR(BLU)
+     A                                  5  3'Parameter Code  . . . .'
+     A                                  6  3'parameter Sub_code  . .'
+     A                                  7  3'Parameter 1 . . . . . .'
+     A                                  8  3'Parameter 2 . . . . . .'
+     A                                 10  3'Parameter 3 . . . . . .'
+     A                                 11  3'Parameter 4 . . . . . .'
+     A                                 12  3'Parameter 5 . . . . . .'
+     A            PACODE    R        B  5 27REFFLD(FPARAM/PACODE *LIBL/PARAMETE-
+     A                                      R)
+     A  40                                  ERRMSG('This code/sub-code already -
+     A                                      exist.' 40)
+     A            PASUBCODE R        B  6 27REFFLD(FPARAM/PASUBCODE *LIBL/PARAM-
+     A                                      ETER)
+     A            PARM1     R        B  7 27REFFLD(FPARAM/PARM1 *LIBL/PARAMETER)
+     A            PARM2     R        B  8 27REFFLD(FPARAM/PARM2 *LIBL/PARAMETER)
+     A                                      CHECK(LC)
+     A            PARM3     R        B 10 27REFFLD(FPARAM/PARM3 *LIBL/PARAMETER)
+     A            PARM4     R        B 11 27REFFLD(FPARAM/PARM4 *LIBL/PARAMETER)
+     A            PARM5     R        B 12 27REFFLD(FPARAM/PARM5 *LIBL/PARAMETER)

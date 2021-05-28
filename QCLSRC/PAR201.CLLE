@@ -1,0 +1,7 @@
+             DCL        VAR(&PATH) TYPE(*CHAR) LEN(100)
+             DCL        VAR(&CODE) TYPE(*CHAR) LEN(10) VALUE('PATH')
+             DCL        VAR(&SUBCODE) TYPE(*CHAR) LEN(10) VALUE(' ')
+             CALLPRC    PRC(GETPARM2) PARM((&CODE *BYVAL) (&SUBCODE +
+                          *BYVAL)) RTNVAL(&PATH)
+             CHGVAR     VAR(&PATH) VALUE(&PATH *TCAT '*')
+             WRKLNK     OBJ(&PATH)

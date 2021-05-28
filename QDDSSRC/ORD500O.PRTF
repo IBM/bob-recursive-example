@@ -1,0 +1,168 @@
+     A*%%***********************************************************************
+     A*%%TS  RD  20161130  105313  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%FI+10660100000000000000000000000000000000000000000000000000
+     A*%%FI       0000000000000000000000000000000000000000000000000
+     A*%%***********************************************************************
+     A          R HEADER
+     A*%%***********************************************************************
+     A*%%RI 00000
+     A*%%FS 004
+     A*%%***********************************************************************
+     A                                      SKIPB(005)
+     A                                     3
+     A                                      'Company Sample'
+     A                                   +28
+     A                                      'Customer Order'
+     A                                     3
+     A                                      '55, rue Adrastee'
+     A                                      SPACEB(001)
+     A                                     3
+     A                                      'F-74650 Chavanod'
+     A                                      SPACEB(001)
+     A*%%***********************************************************************
+     A*%%SS
+     A*%%CL 001
+     A*%%CL 001
+     A*%%***********************************************************************
+     A          R HEADER2
+     A*%%***********************************************************************
+     A*%%RI 00000
+     A*%%***********************************************************************
+     A                                      SPACEB(001)
+     A                                    41
+     A                                      'Customer'
+     A            ORCUID    R        O    +1
+     A                                      REFFLD(FORDE/ORCUID *LIBL/ORDER)
+     A            CUSTNM    R        O    41
+     A                                      REFFLD(FCUST/CUSTNM *LIBL/CUSTOMER)
+     A                                      SPACEB(001)
+     A            CULINE1   R        O    41
+     A                                      REFFLD(FCUST/CULINE1 *LIBL/CUSTOMER)
+     A                                      SPACEB(001)
+     A            CULINE2   R        O    41
+     A                                      REFFLD(FCUST/CULINE2 *LIBL/CUSTOMER)
+     A                                      SPACEB(001)
+     A            CULINE3   R        O    41
+     A                                      REFFLD(FCUST/CULINE3 *LIBL/CUSTOMER)
+     A                                      SPACEB(001)
+     A            CUCOUN    R        O    41
+     A                                      REFFLD(FCUST/CUCOUN *LIBL/CUSTOMER)
+     A                                      SPACEB(001)
+     A            CUZIP     R        O    +1
+     A                                      REFFLD(FCUST/CUZIP *LIBL/CUSTOMER)
+     A            CUCITY    R        O    +1
+     A                                      REFFLD(FCUST/CUCITY *LIBL/CUSTOMER)
+     A*%%***********************************************************************
+     A*%%SS
+     A*%%CL 001
+     A*%%CL 001
+     A*%%CL 001
+     A*%%CL 001
+     A*%%CL 001
+     A*%%***********************************************************************
+     A          R HEADER3
+     A*%%***********************************************************************
+     A*%%RI 00000
+     A*%%FS 005
+     A*%%***********************************************************************
+     A                                      SPACEB(001)
+     A                                      SKIPB(018)
+     A                                     3
+     A                                      'Order Number'
+     A            ORYEAR    R        O    +2
+     A                                      REFFLD(FORDE/ORYEAR *LIBL/ORDER)
+     A                                    +0
+     A                                      '/'
+     A            ORID      R        O    +0
+     A                                      REFFLD(FORDE/ORID *LIBL/ORDER)
+     A                                    66'Order Date'
+     A            DATORD          L       79DATFMT(*JOB)
+     A                                     3
+     A                                      'Line'
+     A                                      SPACEB(002)
+     A                                    +3
+     A                                      'Article'
+     A                                   +34
+     A                                      'Quantity'
+     A                                    +2
+     A                                      'U.Price'
+     A*%%***********************************************************************
+     A*%%SS
+     A*%%CL 002
+     A*%%***********************************************************************
+     A          R DETAIL
+     A*%%***********************************************************************
+     A*%%RI 00000
+     A*%%***********************************************************************
+     A                                      SPACEB(001)
+     A            ODLINE    R        O     3
+     A                                      REFFLD(FDETO/ODLINE *LIBL/DETORD)
+     A            ODQTY     R        O   +46
+     A                                      REFFLD(FDETO/ODQTY *LIBL/DETORD)
+     A            ODPRICE   R        O    +2
+     A                                      REFFLD(FDETO/ODPRICE *LIBL/DETORD)
+     A            ODTOT     R        O    +2
+     A                                      REFFLD(FDETO/ODTOT *LIBL/DETORD)
+     A            ODARID    R        O     3
+     A                                      REFFLD(FDETO/ODARID *LIBL/DETORD)
+     A                                      SPACEB(001)
+     A            ARDESC    R        O    10
+     A                                      REFFLD(FARTI/ARDESC *LIBL/ARTICLE)
+     A            ODTOTVAT  R        O   +12
+     A                                      REFFLD(FDETO/ODTOTVAT *LIBL/DETORD)
+     A                                      HIGHLIGHT
+     A*%%***********************************************************************
+     A*%%SS
+     A*%%CL 001
+     A*%%***********************************************************************
+     A          R TOTAL
+     A*%%***********************************************************************
+     A*%%RI 00000
+     A*%%FS 030
+     A*%%***********************************************************************
+     A                                      SPACEB(002)
+     A                                      SKIPB(052)
+     A                                    72
+     A                                      '============'
+     A                                    66
+     A                                      SPACEB(001)
+     A                                      'Net'
+     A            TOTNET    R        O    +3
+     A                                      REFFLD(FDETO/ODTOTVAT *LIBL/DETORD)
+     A                                      HIGHLIGHT
+     A                                    66
+     A                                      SPACEB(001)
+     A                                      'VAT'
+     A            TOTVAT    R        O    +3
+     A                                      REFFLD(FDETO/ODTOTVAT *LIBL/DETORD)
+     A                                      HIGHLIGHT
+     A                                    64
+     A                                      SPACEB(001)
+     A                                      'Total'
+     A            TOTTOT    R        O    +3
+     A                                      REFFLD(FDETO/ODTOTVAT *LIBL/DETORD)
+     A                                      HIGHLIGHT
+     A*%%***********************************************************************
+     A*%%SS
+     A*%%CL 001
+     A*%%CL 001
+     A*%%CL 001
+     A*%%***********************************************************************
+     A          R FOOTER
+     A*%%***********************************************************************
+     A*%%RI 00000
+     A*%%FS 002
+     A*%%***********************************************************************
+     A                                      SPACEB(002)
+     A                                      SKIPB(058)
+     A                                    37
+     A                                      'This is the footer'
+     A                                   +35
+     A                                      '.'
+     A*%%***********************************************************************
+     A*%%SS
+     A*%%CP+999CRTPRTF
+     A*%%CP+    FILE(NEWD010100/ORD500O)
+     A*%%CP+    DEVTYPE(*SCS)
+     A*%%CP     PAGESIZE(*N       090      *N     )
+     A*%%***********************************************************************

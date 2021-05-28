@@ -1,0 +1,4 @@
+             ADDPFTRG   FILE(DETORD) TRGTIME(*AFTER) +
+                          TRGEVENT(*INSERT) PGM(ORD700) +
+                          RPLTRG(*YES) +
+                          TRG(ORD700_DETORD_ARTICLE_INSERT)

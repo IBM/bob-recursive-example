@@ -1,0 +1,132 @@
+     A*%%TS  SD  20161201  100943  VTAQUIN     REL-V7R1M0  5770-WDS
+     A*%%EC
+     A* changes
+     A                                      DSPSIZ(24 80 *DS3)
+     A                                      INDARA
+     A                                      CA03(03)
+     A                                      CA12(12)
+     A                                      PRINT
+     A                                      ERRSFL
+     A          R SFL01                     SFL
+     A*%%TS  SD  20161027  111456  VTAQUIN     REL-V7R1M0  5770-WDS
+     A  33                                  SFLNXTCHG
+     A            OPT01          2Y 0B  7  3
+     A  34                                  DSPATR(RI)
+     A  34                                  DSPATR(PC)
+     A                                      EDTCDE(Z)
+     A            ARID      R        O  7  7REFFLD(FARTI/ARID *LIBL/ARTICLE)
+     A            ARDESC    R        O  7 14REFFLD(FARTI/ARDESC *LIBL/ARTICLE)
+     A            ARTIFA    R        O  7 65REFFLD(FARTI/ARTIFA *LIBL/ARTICLE)
+     A            ARDEL     R        O  7 70REFFLD(FARTI/ARDEL *LIBL/ARTICLE)
+     A          R CTL01                     SFLCTL(SFL01)
+     A*%%TS  SD  20161201  100943  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      SFLSIZ(0015)
+     A                                      SFLPAG(0014)
+     A N80                                  PAGEDOWN(25 'dynamic subfile')
+     A                                      CF06(06 'Create')
+     A                                      OVERLAY
+     A  31                                  SFLDSP
+     A  32                                  SFLDSPCTL
+     A  30                                  SFLCLR
+     A  80                                  SFLEND(*MORE)
+     A  35                                  SFLMSG('Invalid Option' 35)
+     A            RRB01          4S 0H      SFLRCDNBR
+     A                                  1  2'ART200-1'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type options, press Enter.'
+     A                                      COLOR(BLU)
+     A                                  6  2'Opt'
+     A                                      DSPATR(HI)
+     A                                  1 32'Work with Articles'
+     A                                      DSPATR(HI)
+     A                                  1 68DATE
+     A                                      EDTCDE(Y)
+     A                                  2 68TIME
+     A                                  4  7'2=Edit'
+     A                                      COLOR(BLU)
+     A                                  4 17'3=Info'
+     A                                      COLOR(BLU)
+     A                                  4 39'6=Suppliers'
+     A                                      COLOR(BLU)
+     A                                  4 26'4=Delete'
+     A                                      COLOR(BLU)
+     A                                  6  7'Id'
+     A                                      DSPATR(HI)
+     A                                  6 14'Description'
+     A                                      DSPATR(HI)
+     A                                  6 65'Fam'
+     A                                      DSPATR(HI)
+     A                                  6 69'Del'
+     A                                      DSPATR(HI)
+     A                                  2  4'Position to . . .'
+     A            POSTO         10A  B  2 23CHECK(LC)
+     A          R KEY01
+     A*%%TS  SD  20161027  111559  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 33'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                 23 16'F6=Create'
+     A                                      COLOR(BLU)
+     A          R FMT02
+     A*%%TS  SD  20161103  154035  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                      CF04(04 'Prompt')
+     A                                  1  2'ART200-2'
+     A                                      COLOR(BLU)
+     A                                  3  4'Type choices, press Enter.'
+     A                                      COLOR(BLU)
+     A                                 23  3'F3=Exit'
+     A                                      COLOR(BLU)
+     A                                 23 36'F12=Cancel'
+     A                                      COLOR(BLU)
+     A                                  1 32'Article definition'
+     A                                      DSPATR(HI)
+     A                                  5  4'Article id . . . . . . :'
+     A            ARID      R        O  5 29REFFLD(FARTI/ARID *LIBL/ARTICLE)
+     A                                  6  4'Description  . . . . . .'
+     A            ARDESC    R        B  6 29REFFLD(FARTI/ARDESC *LIBL/ARTICLE)
+     A  41                                  ERRMSG('A description is mandatory'-
+     A                                       41)
+     A                                      CHECK(LC)
+     A                                  7  4'Familly. . . . . . . . .'
+     A                                  9  4'Reference sale price . .'
+     A                                 11  4'Stock price  . . . . . .'
+     A                                 12  4'Minimum stock  . . . . .'
+     A            ARTIFA    R        B  7 29REFFLD(FARTI/ARTIFA *LIBL/ARTICLE)
+     A  40                                  ERRMSGID(ERR0001 *LIBL/SAMMSGF 40)
+     A            ARSALEPR  R        B  9 29REFFLD(FARTI/ARSALEPR *LIBL/ARTICLE)
+     A            ARWHSPR   R        B 11 29REFFLD(FARTI/ARWHSPR *LIBL/ARTICLE)
+     A            ARSTOCK   R        B 13 29REFFLD(FARTI/ARSTOCK *LIBL/ARTICLE)
+     A                                 13  4'Stock  . . . . . . . . .'
+     A            ARMINQTY  R        B 12 29REFFLD(FARTI/ARMINQTY *LIBL/ARTICLE)
+     A            FAMDESC       30A  O  7 34
+     A                                 23 15'F4=Prompt'
+     A                                      COLOR(BLU)
+     A                                  8  4'VAT code . . . . . . . .'
+     A                                 10  9'with VAT  . . . . :'
+     A            WITHVAT   R        O 10 29REFFLD(FARTI/ARSALEPR *LIBL/ARTICLE)
+     A                                      EDTCDE(2)
+     A            ARVATCD   R        B  8 29REFFLD(FARTI/ARVATCD *LIBL/ARTICLE)
+     A            VATRATE   R        O  8 31REFFLD(FVAT/VATRATE *LIBL/VATDEF)
+     A                                      EDTCDE(2)
+     A                                  8 37'%'
+     A            VATDESC   R        O  8 40REFFLD(FVAT/VATDESC *LIBL/VATDEF)
+     A          R FMT03
+     A*%%TS  SD  20161027  114842  VTAQUIN     REL-V7R1M0  5770-WDS
+     A                                  1  2'ART200-3'
+     A                                      COLOR(BLU)
+     A                                  3  4' Make change. Press Enter to confi-
+     A                                      rm'
+     A                                      COLOR(BLU)
+     A                                 23  3' F3Exit'
+     A                                      COLOR(BLU)
+     A                                 23 19' F12Cancel'
+     A                                      COLOR(BLU)
+     A                                  1 31'Article Informations'
+     A                                      DSPATR(HI)
+     A            ARID      R        O  2  4REFFLD(FARTI/ARID *LIBL/ARTICLE)
+     A                                  1 69DATE
+     A                                      EDTCDE(Y)
+     A            ARDESC    R        O  2 11REFFLD(FARTI/ARDESC *LIBL/ARTICLE)
+     A                                  2 69TIME
+     A            TEXT        1520A  B  4  1CHECK(LC)

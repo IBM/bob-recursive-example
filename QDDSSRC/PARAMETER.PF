@@ -1,0 +1,12 @@
+     A                                      UNIQUE
+     A          R FPARAM
+     A            PACODE        10          TEXT('Parameter code')
+     A            PASUBCODE     10          TEXT('Parameter sub-Code')
+     A            PARM1         10          TEXT('Parameter 1')
+     A            PARM2        100          TEXT('Parameter 2')
+     A            PARM3          2          TEXT('Parameter 3')
+     A            PARM4          1  0       TEXT('Parameter 4')
+     A            PARM5          3  0       TEXT('Parameter 5')
+     A          K PACODE
+     A          K PASUBCODE
+

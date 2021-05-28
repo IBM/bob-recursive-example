@@ -1,0 +1,17 @@
+                                            UNIQUE
+                                            REF(SAMREF)
+                R FARPR
+                  APARID    R               REFFLD(ARID)
+                  APPRID    R               REFFLD(PRID)
+                  APPRICE   R               REFFLD(UNITPRICE)
+                                            COLHDG('BUY PRICE')
+                  APREF         10          TEXT('PROVIDER REFERENCE')
+                  APCREA          L         TEXT('CREATION DATE')
+                                            COLHDG('CREAETION' 'DATE')
+                  APMOD           Z         TEXT('LAST MODIFICATION')
+                                            COLHDG('LAST' 'MODIFICATION')
+                  APMODID       10          TEXT('LAS MOD BY')
+                                            COLHDG('LAST' 'MODIF.' 'BY')
+                  APDEL     R               REFFLD(DLCODE)
+                K APPRID
+                K APARID
