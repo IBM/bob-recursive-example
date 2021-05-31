@@ -1,9 +1,8 @@
 {
     "version": "0.0.1",
-    "build": [
+    "build": 
         {
         "objectLocation":"&lib1",
         "sourceCcsid":500        
         }
-    ]
 }

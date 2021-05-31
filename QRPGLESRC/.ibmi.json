@@ -23,11 +23,8 @@
         },
         {
         "name": "ART300.RPGLE",
-        "objectType": "*MODULE", // not needed as it is default
+        "objectType": "*MODULE",
         "text": "Function Article"
-        },   
-        {
-// etc,
         }
 
     ]
