@@ -1,7 +1,0 @@
-{
-    "name" : "GITCO hybrid new mix on ARCUSA01",
-    "connection" : "&ibmi1",
-    "includePath" : "QRPGLESRC",
-    "repository" : "https://192.168.3.60/aclark/GITMIX01.git",
-	"sourceLocation" : "&dir1"
-}

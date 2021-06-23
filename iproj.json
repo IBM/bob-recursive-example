@@ -1,0 +1,12 @@
+{
+    "version": "0.0.1",
+    "description" : "SAMPLE PROJECT",
+    "objlib" : "&lib1",
+    "curlib" : "&lib1",
+    "includePath" : "QPROTOSRC",
+    "preUsrlibl": "&lib1",
+    "postUsrlibl": "",
+    "setIBMiEnvCmd": "",
+    "repository" : "https://github.com/edmundreinhardt/bob-recursive-example",
+	"dependencies" : "accounting/tax"
+}

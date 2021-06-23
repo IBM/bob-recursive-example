@@ -32,17 +32,17 @@ DSPFs:
 
 PRTFs: 
 
-CMDs: CRTORD.CMD CVTSPLPDF.CMD
+CMDs:
 
 MODULEs:
 
 SRVPGMs: 
 
-PGMs:
+PGMs: 
 
-MENUs: 
+MENUs: SAMMNU.MENU
 
-PNLGRPs: 
+PNLGRPs: SAMHELP.PNLGRP
 
 QMQRYs: 
 
@@ -53,8 +53,9 @@ WSCSTs:
 ### Define dependency information and custom compile settings for each object.
 ### This section declares _how_ to build.  Please list rules alphabetically.
 
-CRTORD.CMD: CRTORD.CMDSRC
-CVTSPLPDF.CMD: CVTSPLPDF.CMDSRC
+SAMHELP.PNLGRP: SAMHELP-Help_Application_Sam.PNLGRP
+
+SAMMNU.MENU: SAMMNU-Main_menu_application_SAMPLE.MENU
 
 ########## THIS SECTION MUST BE AT THE END OF THE MAKEFILE ##########
 

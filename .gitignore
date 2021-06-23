@@ -1,0 +1,5 @@
+**/.deps
+**/.evfevent
+**/logs
+
+._.DS_Store

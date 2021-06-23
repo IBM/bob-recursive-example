@@ -1,16 +1,11 @@
 ########## BOB HEADER SECTION -- DO NOT MODIFY ##########
 
-### IBMiMake setup
+### IBMiMakefile setup
 PROJECTDIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-# Include generic IBM i makefile.  Its location is stored in an environment variable called IBMIMAKE.
-ifeq ($(strip $(IBMIMAKE)),)
-$(warning Environment variable 'IBMIMAKE' not set.  Defaulting to $(realpath /QOpenSys/pkgs/lib/bob/IBMiMake))
-IBMIMAKE := /QOpenSys/pkgs/lib/bob/IBMiMake
-else
-$(info Using IBMiMake file: $(realpath $(IBMIMAKE)))
-endif
-include $(IBMIMAKE)
+# Include generic IBM i makefile.
+IBMIMAKEFILE := /QOpenSys/pkgs/lib/bob/IBMiMakefile
+include $(IBMIMAKEFILE)
 
 ### Define type-specific targets and their dependencies
 .PHONY: all PFs LFs DSPFs PRTFs CMDs MODULEs SRVPGMs PGMs MENUs PNLGRPs QMQRYs WSCSTs make_post
