@@ -2,7 +2,7 @@
 
      FVATDEF    if   e           k disk    usropn
 
-      /copy '../qprotosrc/VAT'
+      /copy './'
 
      d chainVATDEF     pr
      D P_VATCODE                      1A    value

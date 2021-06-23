@@ -3,13 +3,8 @@
 ### IBMiMake setup
 PROJECTDIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
-# Include generic IBM i makefile.  Its location is stored in an environment variable called IBMIMAKE.
-ifeq ($(strip $(IBMIMAKE)),)
-$(warning Environment variable 'IBMIMAKE' not set.  Defaulting to $(realpath /QOpenSys/pkgs/lib/bob/IBMiMake))
-IBMIMAKE := /QOpenSys/pkgs/lib/bob/IBMiMake
-else
-$(info Using IBMiMake file: $(realpath $(IBMIMAKE)))
-endif
+# Include generic IBM i makefile.
+IBMIMAKE := /home/tongkun/Bob/IBMiMake
 include $(IBMIMAKE)
 
 ### Define type-specific targets and their dependencies
