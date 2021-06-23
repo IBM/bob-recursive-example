@@ -1,11 +1,11 @@
 ########## BOB HEADER SECTION -- DO NOT MODIFY ##########
 
-### IBMiMake setup
+### IBMiMakefile setup
 PROJECTDIR := $(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
 
 # Include generic IBM i makefile.
-IBMIMAKE := /home/tongkun/Bob/IBMiMake
-include $(IBMIMAKE)
+IBMIMAKEFILE := /QOpenSys/pkgs/lib/bob/IBMiMakefile
+include $(IBMIMAKEFILE)
 
 ### Define type-specific targets and their dependencies
 .PHONY: all PFs LFs DSPFs PRTFs CMDs MODULEs SRVPGMs PGMs MENUs PNLGRPs QMQRYs WSCSTs make_post
