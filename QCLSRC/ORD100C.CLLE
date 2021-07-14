@@ -1,5 +1,5 @@
              /*%%TEXT Create new order with parameter */
-			 /*%%OBJECT-TYPE *PGM                     */
+             /*%%OBJECT-TYPE *PGM                     */
              PGM        PARM(&CUID)
              DCL        VAR(&CUID) TYPE(*DEC) LEN(5 0)
              DLTF       FILE(QTEMP/DETORD)
