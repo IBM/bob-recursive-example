@@ -1,3 +1,4 @@
+#! /QOpenSys/pkgs/bin/bash
 
 # Licensed Materials - Property of IBM
 # 57XX-XXX
@@ -73,7 +74,7 @@ retrieve_from_ibmijson() {
 }
 
 clean_up() {
-    echo -e "${LIGHTGRAY}Cleaning up... ${NOCOLOR}"
+    echo -e "${BLUE}Cleaning up... ${NOCOLOR}"
     echo
     rm -rf "${BUILDVARSMK}"
 }
@@ -83,7 +84,7 @@ parse_placeholder() {
     if [[ $varName =~ ^\&.* ]]; then
         varName=${varName//&/}
         if [ -z "${!varName}" ]; then
-            echo -e "${RED}makei: $BOLD${varName}$RED must be defined first in the environment variable.${NOCOLOR}" >&2
+            echo  "${RED}makei: $BOLD${varName}$RED must be defined first in the environment variable.${NOCOLOR}" >&2
             exit 1
         fi
         echo "${!varName}"
@@ -92,7 +93,7 @@ parse_placeholder() {
     fi
 }
 
-echo -e "${LIGHTGRAY}makei: Reading from iproj.json${NOCOLOR}"
+echo -e "${BLUE}makei: Reading from iproj.json${NOCOLOR}"
 objlib=$(retrieve_from_iproj objlib "*CURLIB")
 tgtCcsid=$(retrieve_from_iproj tgtccsid "*JOB")
 IBMiEnvCmd=$(retrieve_from_iproj setIBMiEnvCmd "")
@@ -167,7 +168,7 @@ recursive_generate() {
     fi;
 }
 
-echo -e "${LIGHTGRAY}Generating makefile for build variables at ${BUILDVARSMK}${NOCOLOR}"
+echo -e "${BLUE}Generating makefile for build variables at ${BUILDVARSMK}${NOCOLOR}"
 echo
 recursive_generate "$srcDir" "$objlib"  "$tgtCcsid"
 ibmijsonError=$?
@@ -186,6 +187,6 @@ else
 fi
 
 clean_up
-echo -e "${LIGHTGRAY}Done.${NOCOLOR}"
+echo -e "${BLUE}Done.${NOCOLOR}"
 
 exit $exitCode
