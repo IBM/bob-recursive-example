@@ -84,7 +84,7 @@ parse_placeholder() {
     if [[ $varName =~ ^\&.* ]]; then
         varName=${varName//&/}
         if [ -z "${!varName}" ]; then
-            echo  "${RED}makei: $BOLD${varName}$RED must be defined first in the environment variable.${NOCOLOR}" >&2
+            echo -e "${RED}makei: $BOLD${varName}$RED must be defined first in the environment variable.${NOCOLOR}" >&2
             exit 1
         fi
         echo "${!varName}"
