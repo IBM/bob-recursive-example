@@ -1,4 +1,12 @@
 # SHELL:=/QOpenSys/pkgs/bin/bash
+MAKEFLAGS += --no-builtin-rules
+MAKEFLAGS += --no-builtin-variables
+
+BUILDVARSMKPATH :=
+ifndef BUILDVARSMKPATH
+    $(error BUILDVARSMKPATH is not set)
+endif
+
 RUNDIR := $(CURDIR)
 ifndef TOP
 TOP := $(shell \
@@ -32,6 +40,7 @@ clean_tree : clean_tree_$(RUNDIR)
 d := $(TOP)
 dir_stack :=
 
+include $(BUILDVARSMKPATH)
 include $(MK)/header.mk
 include $(MK)/footer.mk
 
@@ -43,8 +52,6 @@ include $(MK)/skel.mk
 $(eval $(value HEADER))
 include $(TOP)/Rules.mk
 $(eval $(value FOOTER))
-$(info $$TARGETS is [${TARGETS}])
-$(info $$SUBDIRS is [${SUBDIRS}])
 
 # Optional final makefile where you can specify additional targets
 -include $(TOP)/final.mk
@@ -56,4 +63,4 @@ $(info $$SUBDIRS is [${SUBDIRS}])
 
 # This is just a convenience - to let you know when make has stopped
 # interpreting make files and started their execution.
-$(info Rules generated $(if $(BUILD_MODE),for "$(BUILD_MODE)" mode,)...)
+# $(info Rules generated $(if $(BUILD_MODE),for "$(BUILD_MODE)" mode,)...)

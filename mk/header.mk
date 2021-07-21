@@ -1,8 +1,5 @@
 # Clear vars used by this make system
 define HEADER
-SRCS :=
-SRCS_EXCLUDES :=
-OBJS :=
 CLEAN :=
 TARGETS = $(PFs) $(LFs) $(DSPFs) $(PRTFs) $(CMDs) $(MODULEs) $(SRVPGMs) $(PGMs) $(MENUs) $(PNLGRPs) $(QMQRYs) $(WSCSTs)
 SUBDIRS :=

@@ -18,8 +18,11 @@ CLEAN_$(d) := $(CLEAN_$(d)) $(filter /%,$(CLEAN) $(TARGETS)) $(addprefix $(d)/,$
 
 ifdef TARGETS
 abs_tgts := $(filter /%, $(TARGETS))
+# $(info abs_tgts: $(abs_tgts))
 rel_tgts := $(filter-out /%,$(TARGETS))
-TARGETS_$(d) := $(abs_tgts) $(addprefix $(OBJPATH)/,$(rel_tgts))
+# $(info rel_tgts: $(rel_tgts))
+TARGETS_$(d) := $(TARGETS)
+# $(info $(TARGETS_$(d)))
 $(foreach tgt,$(filter-out $(AUTO_TGTS),$(rel_tgts)),$(eval $(call save_vars,$(OBJPATH)/,$(tgt))))
 # Absolute targets are entry points for external (sub)projects which
 # have their own build system - what is really interesting is only CMD
@@ -114,6 +117,10 @@ endif
 
 # This is a default rule - see Makefile
 dir_$(d) : $(TARGETS_$(d))
+
+.SECONDEXPANSION:
+dir_% : dir_$$(TOP)/$$(subst dir_,,$$(@F))
+	@echo
 
 endif
 endef
