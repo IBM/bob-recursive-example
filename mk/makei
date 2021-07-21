@@ -73,7 +73,7 @@ retrieve_from_ibmijson() {
 }
 
 clean_up() {
-    echo "${LIGHTGRAY}Cleaning up... ${NOCOLOR}"
+    echo -e "${LIGHTGRAY}Cleaning up... ${NOCOLOR}"
     echo
     rm -rf "${BUILDVARSMK}"
 }
@@ -92,7 +92,7 @@ parse_placeholder() {
     fi
 }
 
-echo "${LIGHTGRAY}makei: Reading from iproj.json${NOCOLOR}"
+echo -e "${LIGHTGRAY}makei: Reading from iproj.json${NOCOLOR}"
 objlib=$(retrieve_from_iproj objlib "*CURLIB")
 tgtCcsid=$(retrieve_from_iproj tgtccsid "*JOB")
 IBMiEnvCmd=$(retrieve_from_iproj setIBMiEnvCmd "")
@@ -109,11 +109,11 @@ for lib in $postUsrliblRaw; do
     postUsrlibl+="$(parse_placeholder "$lib")"
 done
 
-echo "${DARKGRAY}......${NOCOLOR}objlib: ${ORANGE}${objlib}${NOCOLOR}"
-echo "${DARKGRAY}......${NOCOLOR}tgtCcsid: ${ORANGE}${tgtCcsid}${NOCOLOR}"
-echo "${DARKGRAY}......${NOCOLOR}IBMiEnvCmd: ${ORANGE}${IBMiEnvCmd}${NOCOLOR}"
-echo "${DARKGRAY}......${NOCOLOR}preUsrlibl: ${ORANGE}${preUsrlibl}${NOCOLOR}"
-echo "${DARKGRAY}......${NOCOLOR}postUsrlibl: ${ORANGE}${postUsrlibl}${NOCOLOR}"
+echo -e "${DARKGRAY}......${NOCOLOR}objlib: ${ORANGE}${objlib}${NOCOLOR}"
+echo -e "${DARKGRAY}......${NOCOLOR}tgtCcsid: ${ORANGE}${tgtCcsid}${NOCOLOR}"
+echo -e "${DARKGRAY}......${NOCOLOR}IBMiEnvCmd: ${ORANGE}${IBMiEnvCmd}${NOCOLOR}"
+echo -e "${DARKGRAY}......${NOCOLOR}preUsrlibl: ${ORANGE}${preUsrlibl}${NOCOLOR}"
+echo -e "${DARKGRAY}......${NOCOLOR}postUsrlibl: ${ORANGE}${postUsrlibl}${NOCOLOR}"
 echo
 
 BUILDVARSMK=$(mktemp)
@@ -167,14 +167,14 @@ recursive_generate() {
     fi;
 }
 
-echo "${LIGHTGRAY}Generating makefile for build variables at ${BUILDVARSMK}${NOCOLOR}"
+echo -e "${LIGHTGRAY}Generating makefile for build variables at ${BUILDVARSMK}${NOCOLOR}"
 echo
 recursive_generate "$srcDir" "$objlib"  "$tgtCcsid"
 ibmijsonError=$?
 # cat $BUILDVARSMK
 
 if test $ibmijsonError -eq 0; then
-    echo ">> ${GREEN}"make BUILDVARSMKPATH="${BUILDVARSMK}" -f /QOpenSys/pkgs/lib/bob/Makefile "$makeOpts""${NOCOLOR}"
+    echo -e ">> ${GREEN}"make BUILDVARSMKPATH="${BUILDVARSMK}" -f /QOpenSys/pkgs/lib/bob/Makefile "$makeOpts""${NOCOLOR}"
     make BUILDVARSMKPATH="${BUILDVARSMK}" "$makeOpts"
     echo
 
@@ -186,6 +186,6 @@ else
 fi
 
 clean_up
-echo "${LIGHTGRAY}Done.${NOCOLOR}"
+echo -e "${LIGHTGRAY}Done.${NOCOLOR}"
 
 exit $exitCode
