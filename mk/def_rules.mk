@@ -257,7 +257,7 @@ echo ">> Adding user libraries to liblist" >> $(LOGFILE); \
 [[ ! -z "$(postUsrlibl)" ]] && liblist -al $(postUsrlibl) >> $(LOGFILE) 2>&1; \
 echo ">> Setup IBM i Environment" >> $(LOGFILE); \
 echo "$(IBMiEnvCmd)" >> $(LOGFILE); \
-[[ ! -z "$(IBMiEnvCmd)" ]] && cl "$(IBMiEnvCmd)" >> $(LOGFILE) 2>&1 || echo ">> Skipping IBM i Environment set up"; \
+[[ ! -z "$(IBMiEnvCmd)" ]] && cl "$(IBMiEnvCmd)" >> $(LOGFILE) 2>&1 ; \
 echo "$(crtcmd)"
 endef
 
@@ -501,7 +501,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.FILE:$$(call genDep,$$(@D),$$*,DSPF)
 	$(eval d = $(@D))
-	@echo "*** Creating DSPF [$*]"
+	$(call echo_cmd,"*** Creating DSPF [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := $(CRTFRMSTMFLIB)/crtfrmstmf obj($(OBJLIB)/$(@F)) cmd(CRTDSPF) srcstmf('$<') parms('$(CRTDSPFFLAGS)'))
 	@$(PRESETUP);  \
@@ -511,7 +511,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.FILE:$$(call genDep,$$(@D),$$*,LF)
 	$(eval d = $(@D))
-	@echo "*** Creating LF [$*]"
+	$(call echo_cmd,"*** Creating LF [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	@if [ -d $(OBJPATH)/$@ ]; then rm -r $(OBJPATH)/$@; fi
 	$(eval crtcmd := $(CRTFRMSTMFLIB)/crtfrmstmf obj($(OBJLIB)/$(@F)) cmd(CRTLF) srcstmf('$<') parms('$(CRTLFFLAGS)'))
@@ -523,7 +523,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.FILE: $$(call genDep,$$(@D),$$*,PF)
 	$(eval d = $(@D))
-	$(call echo_cmd,"*** Creating PF [$(notdir $<)] with TGTCCSID = $(TGTCCSID)")
+	$(call echo_cmd,"*** Creating PF [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := $(CRTFRMSTMFLIB)/crtfrmstmf obj($(OBJLIB)/$(@F)) cmd(CRTPF) srcstmf('$<') parms('$(CRTPFFLAGS)'))
 	@$(PRESETUP);  \
@@ -534,7 +534,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.FILE: $$(call genDep,$$(@D),$$*,PRTF)
 	$(eval d = $(@D))
-	@echo "*** Creating PRTF [$<]"
+	$(call echo_cmd,"*** Creating PRTF [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := $(CRTFRMSTMFLIB)/crtfrmstmf obj($(OBJLIB)/$(@F)) cmd(CRTPRTF) srcstmf('$<') parms('$(CRTPRTFFLAGS)'))
 	@$(PRESETUP);  \
@@ -552,7 +552,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.MENU: $$(call genDep,$$(@D),$$*,MENUSRC)
 	$(eval d = $(@D))
-	@echo "*** Creating menu [$*]"
+	$(call echo_cmd,"*** Creating menu [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := $(CRTFRMSTMFLIB)/crtfrmstmf obj($(OBJLIB)/$(@F)) cmd(CRTMNU) srcstmf('$<') parms('$(CRTMNUFLAGS)'))
 	@$(PRESETUP);  \
@@ -574,7 +574,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.MODULE: $$(call genDep,$$(@D),$$*,C) $(DEPDIR)/%.d
 	$(eval d = $(@D))
-	@echo "*** Creating C module [$*]"
+	$(call echo_cmd,"*** Creating C module [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := crtcmod module($(OBJLIB)/$(@F)) srcstmf('$<') $(CRTCMODFLAGS) $(ADHOCCRTFLAGS))
 	@$(PRESETUP);  \
@@ -586,7 +586,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.MODULE: $$(call genDep,$$(@D),$$*,RPGLE) $(DEPDIR)/%.d
 	$(eval d = $(@D))
-	@echo "*** Creating RPG module [$*] with [$<]"
+	$(call echo_cmd,"*** Creating RPG module [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := crtrpgmod module($(OBJLIB)/$(@F)) srcstmf('$<') $(CRTRPGMODFLAGS))
 	@$(PRESETUP);  \
@@ -598,7 +598,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.MODULE: $$(call genDep,$$(@D),$$*,CLLE)
 	$(eval d = $(@D))
-	@echo "*** Creating CL module [$*]"
+	$(call echo_cmd,"*** Creating CL module [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	@$(eval crtcmd := crtclmod module($(OBJLIB)/$(@F)) srcstmf('$<') $(CRTCLMODFLAGS))
 	@$(PRESETUP); \
@@ -609,7 +609,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.MODULE: $$(call genDep,$$(@D),$$*,SQLC) $(DEPDIR)/%.d
 	$(eval d = $(@D))
-	@echo "*** Creating SQLC module [$*]"
+	$(call echo_cmd,"*** Creating SQLC module [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	@qsh_out -c "touch -C 1252 $<-1252 && cat $< >$<-1252"
 	$(eval crtcmd := crtsqlci obj($(OBJLIB)/$(@F)) srcstmf('$<-1252') $(CRTSQLCIFLAGS))
@@ -623,7 +623,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.MODULE: $$(call genDep,$$(@D),$$*,SQLRPGLE) $(DEPDIR)/%.d
 	$(eval d = $(@D))
-	@echo "*** Creating SQLRPGLE module [$*]"
+	$(call echo_cmd,"*** Creating SQLRPGLE module [$(notdir $<)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := crtsqlrpgi obj($(OBJLIB)/$(@F)) srcstmf('$<') $(CRTSQLRPGIFLAGS))
 	@$(PRESETUP);  \
@@ -645,7 +645,8 @@ programTGTRLS = $(strip \
 %.PGM: private BNDSRVPGMPATH = $(basename $(filter %.SRVPGM,$(notdir $^)) $(externalsrvpgms))
 
 %.PGM: %.MODULE
-	@echo "*** Creating program [$*] from modules [$(basename $(filter %.MODULE,$(notdir $^)))] and service programs [$(basename $(filter %.SRVPGM,$(notdir $^$|)))]"
+	$(eval d = $(@D))
+	$(call echo_cmd,"*** Creating program [$*] from modules [$(basename $(filter %.MODULE,$(notdir $^)))] and service programs [$(basename $(filter %.SRVPGM,$(notdir $^$|)))]")
 	$(eval externalsrvpgms := $(filter %.SRVPGM,$(subst .LIB,,$(subst /QSYS.LIB/,,$|))))
 	$(eval crtcmd := crtpgm pgm($(OBJLIB)/$(@F)) module($(basename $(filter %.MODULE,$(notdir $^)))) bndsrvpgm($(if $(BNDSRVPGMPATH),$(BNDSRVPGMPATH),*NONE)) $(CRTPGMFLAGS))
 	$(eval EVFEVENT_DOWNLOAD_PGM = system "CPYTOSTMF FROMMBR('$(OBJPATH)/EVFEVENT.FILE/$*.MBR') TOSTMF('$(EVTDIR)/$*.PGM.evfevent') STMFCCSID(*STDASCII) ENDLINFMT(*LF) CVTDTA(*AUTO) STMFOPT(*REPLACE)" >/dev/null)
@@ -655,7 +656,8 @@ programTGTRLS = $(strip \
 	@$(EVFEVENT_DOWNLOAD_PGM)
 
 %.PGM: %.PGM.RPGLE
-	@echo "*** Create Bound RPG Program [$*]"
+	$(eval d = $(@D))
+	$(call echo_cmd,"*** Create Bound RPG Program [$(notdir $*)]")
 	$(eval crtcmd := CRTBNDRPG srcstmf($<) PGM($(OBJLIB)/$(@F) $(CRTBNDRPGFLAGS))
 	$(eval EVFEVENT_DOWNLOAD_PGM_RPGLE = system "CPYTOSTMF FROMMBR('$(OBJPATH)/EVFEVENT.FILE/$*.MBR') TOSTMF('$(EVTDIR)/$*.PGM.RPGLE.evfevent') STMFCCSID(*STDASCII) ENDLINFMT(*LF) CVTDTA(*AUTO) STMFOPT(*REPLACE)" >/dev/null)
 	@$(PRESETUP);  \
@@ -664,7 +666,8 @@ programTGTRLS = $(strip \
 	@$(EVFEVENT_DOWNLOAD_PGM_RPGLE)
 
 %.PGM: %.PGM.C
-	@echo "*** Create Bound RPG Program [$*]"
+	$(eval d = $(@D))
+	$(call echo_cmd,"*** Create Bound RPG Program [$(notdir $*)]")
 	$(eval crtcmd := CRTBNDC srcstmf($<) PGM($(OBJLIB)/$(@F)) $(CRTBNDCFLAGS))
 	$(eval EVFEVENT_DOWNLOAD_PGM_C = system "CPYTOSTMF FROMMBR('$(OBJPATH)/EVFEVENT.FILE/$*.MBR') TOSTMF('$(EVTDIR)/$*.PGM.C.evfevent') STMFCCSID(*STDASCII) ENDLINFMT(*LF) CVTDTA(*AUTO) STMFOPT(*REPLACE)" >/dev/null)
 	@$(PRESETUP);  \
@@ -677,7 +680,8 @@ programTGTRLS = $(strip \
 
 .SECONDEXPANSION:
 %.PNLGRP: $$(call genDep,$$(@D),$$*,PNLGRPSRC)
-	@echo "*** Creating panel group [$*]"
+	$(eval d = $(@D))
+	$(call echo_cmd,"*** Create panel group [$(notdir $*)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := $(CRTFRMSTMFLIB)/crtfrmstmf obj($(OBJLIB)/$(@F)) cmd(CRTPNLGRP) srcstmf('$<') parms('$(CRTPNLGRPFLAGS)'))
 	@$(PRESETUP);  \
@@ -689,7 +693,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.QMQRY: $$(call genDep,$$(@D),$$*,SQL)
 	$(eval d = $(@D))
-	@echo "*** Creating QM query [$*]"
+	$(call echo_cmd,"*** Create QM query [$(notdir $*)]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := $(CRTFRMSTMFLIB)/crtfrmstmf obj($(OBJLIB)/$(@F)) cmd(CRTQMQRY) srcstmf('$<') parms('$(CRTQMQRYFLAGS)'))
 	$(PRESETUP) >> $(LOGFILE);  \
@@ -705,8 +709,8 @@ programTGTRLS = $(strip \
 %.SRVPGM: private BNDSRVPGMPATH = $(basename $(filter %.SRVPGM,$(notdir $^)) $(externalsrvpgms))
 
 %.SRVPGM:
-	@echo "*** Creating service program [$*] from modules [$(basename $(filter %.MODULE,$(notdir $^)))] and service programs [$(basename $(filter %.SRVPGM,$(notdir $^$|)))]"
-
+	$(eval d = $(@D))
+	$(call echo_cmd,"*** Creating service program [$*] from modules [$(basename $(filter %.MODULE,$(notdir $^)))] and service programs [$(basename $(filter %.SRVPGM,$(notdir $^$|)))]")
 	@$(set_STMF_CCSID)
 	$(eval externalsrvpgms := $(filter %.SRVPGM,$(subst .LIB,,$(subst /QSYS.LIB/,,$|))))
 	$(eval crtcmd := CRTSRVPGM srcstmf('$<') SRVPGM($(OBJLIB)/$(@F)) MODULE($(basename $(filter %.MODULE,$(notdir $^)))) BNDSRVPGM($(if $(BNDSRVPGMPATH),$(BNDSRVPGMPATH),*NONE)) $(CRTSRVPGMFLAGS))
@@ -719,7 +723,7 @@ programTGTRLS = $(strip \
 .SECONDEXPANSION:
 %.WSCST: $$(call genDep,$$(@D),$$*,WSCSTSRC)
 	$(eval d = $(@D))
-	@echo "*** Creating work station customizing object [$*]"
+	$(call echo_cmd,"*** Creating work station customizing object [$*]")
 	@$(set_STMF_CCSID)
 	$(eval crtcmd := $(CRTFRMSTMFLIB)/crtfrmstmf obj($(OBJLIB)/$(@F)) cmd(CRTWSCST) srcstmf('$<') parms('$(CRTWSCSTFLAGS)'))
 	@$(PRESETUP);  \
