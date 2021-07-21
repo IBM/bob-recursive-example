@@ -1,0 +1,185 @@
+#! /QOpenSys/pkgs/bin/bash
+
+# Licensed Materials - Property of IBM
+# 57XX-XXX
+# (c) Copyright IBM Corp. 2021
+
+# @author Tongkun
+#
+# Usage: makei [target]
+# 
+# Wrapper around `make` command so that runs make in every subdirectory if possible.
+# If enableLog is true, its output can be captured and logged into
+# a log directory.  The directory name is gleaned by scraping the output of IBMiMake.
+
+#
+# A named pipe is created, and a reader process (`tee`) is started in the background.  Make's
+# output is redirected to the pipe, where the reader writes it to both stdout and a log file.
+# The complexity is needed because merely using `tee` loses Make's exit code.  An alternate
+# solution, redirecting Make's output to a file and later sending it to stdout.
+#
+
+SEPSTART=">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"
+SEPEND="<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+# enableLog=true
+enableLog=false
+exitCode=0
+
+# Create a named pipe that stdout and stderr will be funneled through, and start a tee reader process.
+pid=$$
+pipe="/tmp/pipe$pid"
+log="/tmp/makelog${pid}.log"
+mkfifo "$pipe"
+tee "$log" <"$pipe" &
+
+makeOpts=$*
+srcDir="$(pwd)"
+
+rm -rf "${srcDir}/output.log"
+rm -rf "${srcDir}/joblog.json"
+
+retrieve_from_iproj() {
+    local key=$1
+    local default_vaule=$2
+    local value
+    value=$(jq ".${key}" iproj.json | sed "s/\"//g")
+    if [[ $value = null || $value = "" ]]; then
+        echo "$default_vaule"
+    else
+        echo "$value"
+    fi
+}
+
+echo "makei: [info] Reading from iproj.json"
+objlib=$(retrieve_from_iproj objlib "*CURLIB")
+tgtCcsid=$(retrieve_from_iproj tgtccsid "*JOB")
+IBMiEnvCmd=$(retrieve_from_iproj setIBMiEnvCmd "")
+preUsrliblRaw=$(retrieve_from_iproj preUsrlibl "" | sed "s/ //g;s/,/ /g")
+postUsrliblRaw=$(retrieve_from_iproj postUsrlibl "" | sed "s/ //g;s/,/ /g")
+
+preUsrlibl=""
+postUsrlibl=""
+
+for lib in $preUsrliblRaw; do
+    if [[ $lib =~ ^\&.* ]]; then
+      lib=${lib//&/}
+      preUsrlibl+="${!lib} "
+    else
+      preUsrlibl+="${lib} "
+    fi
+done
+
+for lib in $postUsrliblRaw; do
+    if [[ $lib =~ ^\&.* ]]; then
+      lib=${lib//&/}
+      postUsrlibl+="${!lib} "
+    else
+      postUsrlibl+="${lib} "
+    fi
+done
+
+echo "    objlib: ${objlib}"
+echo "    tgtCcsid: ${tgtCcsid}"
+echo "    IBMiEnvCmd: ${IBMiEnvCmd}"
+echo "    preUsrlibl: ${preUsrlibl}"
+echo "    postUsrlibl: ${postUsrlibl}"
+
+# Get the sourceCcsid from a given .ibmi.json. jq is prefered as the json parser
+# if jq not found, awk is used and assumes that the sourceCssid attribute are on the same line
+retrieve_sourceCcsid() {
+    local pathToIbmiJson=$1
+    local ccsid
+    if ! type jq >/dev/null 2>&1; then
+        ccsid=$(grep '^ *"sourceCcsid":' "${pathToIbmiJson}" | awk -F ":" '{ print $2 }' | sed -e 's/,$//')
+        echo >&2 "makei: [Warning] jq is not found, fall back to built-in Json parser."
+    else
+        ccsid=$(jq .build.sourceCcsid "${pathToIbmiJson}")
+    fi
+    
+    if [[ $ccsid = null ]]; then ccsid=""; fi
+    echo "$ccsid"
+}
+
+# Get the objectLocation from a given .ibmi.json. jq is prefered as the json parser
+# if jq not found, awk is used and assumes that the sourceCssid attribute are on the same line
+retrieve_objectLocation() {
+    local pathToIbmiJson=$1
+    local objLoc
+    if ! type jq >/dev/null 2>&1; then
+        objLoc=$(grep '^ *"objectLocation":' "${pathToIbmiJson}" | awk -F ":" '{ print $2 }' | sed -e 's/,$//' -e 's/^"//' -e 's/"$//' -e 's/&//')
+        echo >&2 "makei: [Warning] jq is not found, fall back to built-in Json parser."
+    else
+        objLoc=$(jq .build.objectLocation "${pathToIbmiJson}" | sed -e 's/&//' -e 's/^"//' -e 's/"$//')
+    fi
+    if [[ $objLoc = null ]]; then objLoc=""; fi
+    echo "$objLoc"
+}
+
+# A recursive function that loops through every folder under the input src directory and issues an make command if possible
+recursive_make() {
+    local dir=$1
+    local parentObjLoc=${2//&/}
+    local parentCcsid=$3
+    local curObjLoc
+    local curCcsid
+    cd "$dir" || ( echo "${dir} not found"; exit 1)
+
+    if [[ -f ".ibmi.json" ]]; then
+        curObjLoc=$(retrieve_objectLocation "./.ibmi.json")
+        curCcsid=$(retrieve_sourceCcsid "./.ibmi.json")
+    fi
+    # If ObjLoc and curCcsid are not defined, then use the parent's configuration
+    curObjLoc="${curObjLoc:-$parentObjLoc}"
+    curCcsid="${curCcsid:-$parentCcsid}"
+
+
+    if [[ -f "Makefile" ]]; then
+        echo "$SEPSTART"
+        echo "makei: [Info] Building ${dir}"
+
+        local curObjPath='*CURLIB'
+        if [[ $curObjLoc != '*CURLIB' ]]; then
+            if [ -z "${!curObjLoc}" ]; then
+                echo "makei: [Error] ${curObjLoc} is undefined."
+                echo "$SEPEND"
+                echo
+                return 1
+            fi
+            curObjPath=/QSYS.LIB/${!curObjLoc}.LIB
+        fi
+
+        echo ">> " make PROJECTDIR:="${srcDir}" TGTCCSID:="$curCcsid" OBJPATH:="${curObjPath}" IBMiEnvCmd="${IBMiEnvCmd}" preUsrlibl="'${preUsrlibl}'" postUsrlibl="'${postUsrlibl}'" -f "${dir}/Makefile" "$makeOpts"
+        # Call make with the arguments that were passed in
+        make PROJECTDIR:="${srcDir}" TGTCCSID:="$curCcsid" OBJPATH:="${curObjPath}" IBMiEnvCmd="${IBMiEnvCmd}" preUsrlibl="${preUsrlibl}" postUsrlibl="${postUsrlibl}" -f "${dir}/Makefile" $makeOpts
+        echo "$SEPEND"
+        echo
+        exitCode=$(( exitCode + $? ))
+    fi
+    
+    for f in "$dir"/*; do
+        if [[ -d $f ]]; then
+            recursive_make "$f" "$curObjLoc" "$curCcsid"
+            cd ..
+        fi
+    done
+    return $(( exitCode + $? ))
+}
+
+# Redirect stdout and stderr to the pipe.
+recursive_make "$srcDir" "$objlib"  "$tgtCcsid" >"$pipe" 2>&1
+exitCode=$?
+
+# Determine the logging directory used by Make and move the logfile there.
+# The directory is written to stdout by the IBMiMake makefile.
+if [ "$enableLog" = true ]; then
+    finalLog='! Build log.log'
+    makeLogDir=$(sed -n -e 's/^IBMiMake log directory: \(.*\)$/\1/p' "$log")
+    if [ -d "$makeLogDir" ] && [ -f "$log" ]; then
+        echo "Make: Invoked with command > make $* <" >"${makeLogDir}/${finalLog}"
+        echo >>"${makeLogDir}/${finalLog}"
+        sed -e '/^IBMiMake log directory:.*\/Logs\//d' "$log" >>"${makeLogDir}/${finalLog}"
+    fi
+fi
+
+rm "$pipe"
+exit $exitCode
