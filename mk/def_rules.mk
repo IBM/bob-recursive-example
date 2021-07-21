@@ -25,11 +25,11 @@ endif
 # the text descriptor.
 # e.g. CUSTOME1-Customer_file.LF has `CUSTOME1` as the module name and `Customer file` as the text descriptor
 define extractName = 
-echo '$<' | awk -F- '{ print $$1 }'
+echo '$(notdir $<)' | awk -F- '{ print $$1 }'
 endef
 define extractTextDescriptor =
-if [[ "$<" == *"-"* ]]; then
-	echo '$<' | awk -F- '{ i = index($$0,"-");print substr($$0,i+1)}' | sed -e 's/\.[^.]*$$//' -e 's/_/\ /g';
+if [[ "$(notdir $<)" == *"-"* ]]; then
+	echo '$(notdir $<)' | awk -F- '{ i = index($$0,"-");print substr($$0,i+1)}' | sed -e 's/\.[^.]*$$//' -e 's/_/\ /g';
 fi
 endef
 
