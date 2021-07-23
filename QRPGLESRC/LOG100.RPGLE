@@ -3,7 +3,7 @@
      fparameter if   e           k disk
      f                                     infds(info)
 
-      /copy qprotosrc,apicall
+      /copy qprotosrc/APICALL-Prototypes_for_Ibm_API
 
      d info            ds
      D  lib                   93    102

@@ -2,7 +2,7 @@
 
      FPROVIDE1  if   e           k disk    usropn
 
-      /copy qprotosrc,PROVIDER
+      /copy qprotosrc/PROVIDER
 
      d chainPROVIDE1   pr
      D P_PRID                         5P 0  value

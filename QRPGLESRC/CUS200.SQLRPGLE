@@ -8,7 +8,7 @@
      F                                     sfile(sfl01:rrn01)
      F                                     Infds(Info)
 
-      /copy qprotosrc,country
+      /copy qprotosrc/country
 
      d orders          pr                  extpgm('ORD200')
      d  id                                 like(cuid)

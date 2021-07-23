@@ -7,7 +7,7 @@
      fcustome1  if   e           k disk
      farticle1  if   e           k disk
 
-      /copy qprotosrc,parameter
+      /copy qprotosrc/parameter
 
      d ord500          pr
      d   id                                like(orid)
