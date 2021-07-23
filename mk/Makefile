@@ -1,7 +1,7 @@
-# SHELL:=/QOpenSys/pkgs/bin/bash
+SHELL:=/QOpenSys/pkgs/bin/bash
 MAKEFLAGS += --no-builtin-rules
 MAKEFLAGS += --no-builtin-variables
-
+COLOR_TTY :=
 BUILDVARSMKPATH :=
 ifndef BUILDVARSMKPATH
     $(error BUILDVARSMKPATH is not set)
