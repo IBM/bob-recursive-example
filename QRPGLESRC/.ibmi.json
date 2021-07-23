@@ -1,10 +1,9 @@
 {
     "version": "0.0.1",
-    "build": 
-        {
-        "objectLocation":"&lib1",
-        "sourceCcsid":37        
-        },
+    "build": {
+        "objlib": "&lib1",
+        "tgtCcsid": "297"
+    },
     "sourceAttributes" : [  
         {
         "name": "ART200.SQLRPGLE",
