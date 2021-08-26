@@ -51,7 +51,7 @@ WSCSTs:
 ########## OBJECT RULES, DEPENDENCIES AND CUSTOM COMPILE SETTINGS ##########
 ### Define dependency information and custom compile settings for each object.
 ### This section declares _how_ to build.  Please list rules alphabetically.
-# ART200.MODULE: ART200-Work_with_article.PGM.SQLRPGLE
+ART200.MODULE: ART200-Work_with_article.PGM.SQLRPGLE
 COU301.MODULE: COU301.RPGLE
 FAM301.MODULE: FAM301.RPGLE
 ORD201.MODULE: ORD201.SQLRPGLE
