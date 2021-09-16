@@ -3,11 +3,11 @@
   "description": "SAMPLE PROJECT",
   "objlib": "&lib1",
   "curlib": "&lib1",
-  "includePath": "QPROTOSRC",
-  "preUsrlibl": "&lib1",
-  "postUsrlibl": "",
-  "setIBMiEnvCmd": ["asd asdwe", "asd bsad"],
+  "includePath": ["QPROTOSRC"],
+  "preUsrlibl": ["&lib1"],
+  "postUsrlibl": [""],
+  "setIBMiEnvCmd": ["ADDLIBLE QTEMP"],
   "repository": "https://github.com/edmundreinhardt/bob-recursive-example",
   "dependencies": "accounting/tax",
-  "queries": "/home/wdsctest/,MYLIB"
+  "queries": ["/home/wdsctest/,MYLIB"]
 }
