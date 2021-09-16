@@ -5,7 +5,7 @@
   "curlib": "&lib1",
   "includePath": ["QPROTOSRC"],
   "preUsrlibl": ["&lib1"],
-  "postUsrlibl": [""],
+  "postUsrlibl": [],
   "setIBMiEnvCmd": ["ADDLIBLE QTEMP"],
   "repository": "https://github.com/edmundreinhardt/bob-recursive-example",
   "dependencies": "accounting/tax",
