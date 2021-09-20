@@ -1,55 +1,6 @@
 {
     "version": "0.0.1",
     "build": {
-        "objlib": "&lib1",
         "tgtCcsid": "297"
-    },
-    "source-attributes" : [  
-        {
-        "name": "APICALL.RPGLE",
-        "objectType": "*NONE",
-        "text": ""
-        }, 
-        {
-        "name": "ARTICLE.RPGLE",
-        "objectType": "*NONE",
-        "text": "Function Article"
-        }, 
-        {
-        "name": "COUNTRY.RPGLE",
-        "objectType": "*NONE",
-        "text": "Functions Country"
-        }, 
-        {
-        "name": "CUSTOMER.RPGLE",
-        "objectType": "*NONE",
-        "text": "Function Country"
-        },
-        {
-        "name": "FAMILLY.RPGLE",
-        "objectType": "*NONE",
-        "text": "Functions article familly"
-        },
-        {
-        "name": "LOG.RPGLE",
-        "objectType": "*NONE",
-        "text": "Log functions"
-        },
-        {
-        "name": "PARAMETER.RPGLE",
-        "objectType": "*NONE",
-        "text": "Parameters functions - Prototypes"
-        },
-        {
-        "name": "PROVIDER.RPGLE",
-        "objectType": "*NONE",
-        "text": "Functions Provider"
-        },
-        {
-        "name": "VAT.RPGLE",
-        "objectType": "*NONE",
-        "text": "Functions VAT"
-        }
-
-    ]
+    }
 }

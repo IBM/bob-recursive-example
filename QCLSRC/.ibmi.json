@@ -1,7 +1,6 @@
 {
     "version": "0.0.1",
     "build": {
-        "objlib": "&lib1",
         "tgtCcsid": "500"
     }
 }
