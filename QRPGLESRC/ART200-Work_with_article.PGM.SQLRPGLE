@@ -8,7 +8,7 @@
      F                                     sfile(sfl01:rrn01)
      F                                     Infds(Info)
 
-      /copy qprotosrc,familly
+      /copy qprotosrc/familly
 
      d providers       pr                  extpgm('ART201')
      d  id                                 like(arid)

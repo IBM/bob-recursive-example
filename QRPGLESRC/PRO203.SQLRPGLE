@@ -1,8 +1,8 @@
      h dftactgrp(*no)
      fpro202d   cf   e             workstn
 
-      /copy qprotosrc,Xss
-      /copy qprotosrc,Parameter
+      /copy qprotosrc/Xss
+      /copy qprotosrc/Parameter
 
      d data            ds                  inz
      d   ARID                         6
