@@ -2,7 +2,6 @@
     "version": "0.0.1",
     "build": 
         {
-        "objectLocation":"&lib1",
-        "sourceCcsid":500        
+        "tgtCcsid":"500"
         }
 }
