@@ -5,7 +5,7 @@
      F                                     sfile(sfl01:rrn01)
      F                                     Infds(Info)
 
-      /copy qprotosrc/country-functions
+      /copy qprotosrc/country
 
      d articles        pr                  extpgm('ART202')
      d  id                                 like(prid)
