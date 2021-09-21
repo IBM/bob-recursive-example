@@ -8,6 +8,5 @@
   "postUsrlibl": [],
   "setIBMiEnvCmd": [],
   "repository": "https://github.com/edmundreinhardt/bob-recursive-example",
-  "dependencies": "accounting/tax",
   "queries": ["/home/wdsctest/","MYLIB"]
 }
