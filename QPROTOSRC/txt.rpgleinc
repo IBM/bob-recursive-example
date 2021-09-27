@@ -1,0 +1,182 @@
+      *%CSTD===========================================================*
+      ** Application. : NEW        New Sample                          *
+      ** Component. . : TXT                           Type: RPGLE      *
+      **===============================================================*
+      ** Sub-system . :                                                *
+      ** Function . . :                                                *
+      ** Sub-function :                                                *
+      **%S=============================================================*
+      ** Description of functions:                                     *
+      **                                                               *
+      **                                                               *
+      **                                                               *
+      **%E=============================================================*
+      ** AUTHOR:    VTAQUIN    01/12/2016 14:55  01.01.00              *
+      ** MODIFS: ** VTAQUIN    01/12/2016   :    01.01.00    00/       *
+      *%ECSTD==========================================================*
+        // txtcrtfile : create a file in Ifs
+        //      return on if succesfull
+        //      partameters : file name
+        //                    new :return off il already exist
+        //                    replace : remove previous file befor
+
+     d txtcrtfile      pr              n
+     d  Filename                   1024    const
+     d   new                           n   const
+
+     d txtcrtpath      pr
+     d  Pathname                    512    const
+
+        // txtdltfile : delete a file in Ifs
+        //      return on if succesfull
+        //      partameters : file name
+
+     d txtdltfile      pr              n
+     d  Filename                   1024    const
+
+        // txtfileexist : Chek if a file exist in Ifs
+        //      return on if exist
+        //      partameters : file name
+
+     d txtfileexist    pr              n
+     d  Filename                   1024    const
+
+     d txtwrite        pr
+     d  pdata                          *   const
+     d  len                          10u 0 const
+
+     d txtGets         pr            10u 0
+     d  data                      65000
+
+     d txtRead         pr              n
+     d  len                           5u 0 value
+     d  data                      65535    options(*varsize)
+
+     d txtopnfile      pr              n
+     d  Filename                   1024    const
+     d  readOnly                       n   const options(*nopass)
+
+     d txtopnfile2     pr              n
+     d  Filename                   1024    const
+     d  readOnly                       n   const options(*nopass)
+
+     d txtclofile      pr
+
+     D*--------------------------------------
+     D* Prototype for procedure: DltIfsFile
+     D*--------------------------------------
+     d DltIfsFile      pr              n
+     d  Filename                   1024    const
+     D*--------------------------------------
+     D* Prototype for procedure: CpyIfsFile
+     D*--------------------------------------
+     d CpyIfsFile      pr              n
+     d  OldFile                    1024    const
+     d  NewFile                    1024    const
+     D*--------------------------------------
+     D* Prototype for procedure: MoveIfsFile
+     D*--------------------------------------
+     d MoveIfsFile     pr              n
+     d  OldFile                    1024    const
+     d  NewFile                    1024    const
+     D*--------------------------------------
+     D* Prototype for procedure: OpnIfsDir
+     D*--------------------------------------
+     d OpnIfsDir       pr              n
+     d  IfsDir                     1024    const
+     D*--------------------------------------
+     D* Prototype for procedure: ExistIfsDir
+     D*--------------------------------------
+     d ExistIfsDir     pr              n
+     d  IfsDir                     1024    const
+     D*--------------------------------------
+     D* Prototype for procedure: CloIfsDir
+     D*--------------------------------------
+     d CloIfsDir       pr              n
+     D*--------------------------------------
+     D* Prototype for procedure: ReadIfsDir
+     D*--------------------------------------
+     d ReadIfsDir      pr              n
+     d   IfsObj                    1024
+     D*--------------------------------------
+     D* Prototype for procedure: GetIfsObjType
+     D*--------------------------------------
+     d GetIfsObjType   pr            10
+     d   IfsObj                    1024     const
+     D*--------------------------------------
+     D* Prototype for procedure: GetIfsObjSize
+     D*--------------------------------------
+     d GetIfsObjSize   pr            10i 0
+     d   IfsObj                    1024     const
+     D*--------------------------------------
+     D* Prototype for procedure: GetIfsObjCrtDate
+     D*--------------------------------------
+     d GetIfsObjCrtDate...
+     d                 pr              d
+     d   IfsObj                    1024     const
+     D*--------------------------------------
+     D* Prototype for procedure: GetIfsObjCrtZ
+     D*--------------------------------------
+     d GetIfsObjCrtZ   pr              z
+     d   IfsObj                    1024     const
+
+     D*--------------------------------------
+     D* Prototype for procedure: GetIfsObjModZ
+     D*--------------------------------------
+     d GetIfsObjModZ   pr              z
+     d   IfsObj                    1024     const
+      /if not defined(exec)
+     D exec            pr                  extpgm('QCMDEXC')
+     D                             3000A   options(*varsize) const
+     D                               15P 5 const
+     D                                3A   const options(*nopass)
+      /define exec
+      /endif
+      *****************************************************************
+      * Ifs constants
+      *****************************************************************
+      * File Access Modes for open()
+     D O_RDONLY        c                   1
+     D O_WRONLY        c                   2
+     D O_RDWR          c                   4
+
+      * oflag values for open()
+     D O_CREAT         c                   8
+     D O_EXCL          c                   16
+      * Assign a CCSID
+     D O_CCSID         C                   32
+     D O_TRUNC         c                   64
+
+      * File Status Flags for open() and fcntl()
+     D O_NONBLOCK      c                   128
+     D O_APPEND        c                   256
+
+      * oflag Share Mode values for open()
+     D O_SHARE_RDONLY  c                   65536
+     D O_SHARE_WRONLY  c                   131072
+     D O_SHARE_RDWR    c                   262144
+     D O_SHARE_NONE    c                   524288
+
+      * File permissions
+     D S_IRUSR         c                   256
+     D S_IWUSR         c                   128
+     D S_IXUSR         c                   64
+     D S_IRWXU         c                   448
+     D S_IRGRP         c                   32
+     D S_IWGRP         c                   16
+     D S_IXGRP         c                   8
+     D S_IRWXG         c                   56
+     D S_IROTH         c                   4
+     D S_IWOTH         c                   2
+     D S_IXOTH         c                   1
+     D S_IRWXO         c                   7
+
+      * Misc
+     D O_TEXTDATA      c                   16777216
+     D O_CODEPAGE      c                   8388608
+     D O_INHERITMODE   c                   134217728
+     D O_TEXT_CREAT    C                   33554432
+
+     d SEEK_SET        c                   0
+     d SEEK_CUR        c                   1
+     d SEEK_END        c                   2
