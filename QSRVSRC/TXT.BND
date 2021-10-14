@@ -1,0 +1,21 @@
+     /*%CSTD===========================================================*      */
+     /** Application. : ARC_DEMO   PRD:Tools used by Demo appli.       *      */
+     /** Composant. . : TXT                           Type: BND        *      */
+     /**===============================================================*      */
+     /** Sous-syst}me :                                                *      */
+     /** Fonction . . :                                                *      */
+     /** Sous-fonction:                                                *      */
+     /**%S=============================================================*      */
+     /** Description des fonctionnalit{s:                              *      */
+     /**                                                               *      */
+     /**                                                               *      */
+     /**                                                               *      */
+     /**%E=============================================================*      */
+     /** AUTEUR:    VTAQUIN    14/06/2017 17:02  01.00.09              *      */
+     /** MODIFS: ** VTAQUIN    14/06/2017   :    01.00.09    00/       *      */
+     /*%ECSTD==========================================================*      */
+     STRPGMEXP PGMLVL(*CURRENT)  SIGNATURE('V1')
+          EXPORT SYMBOL("TXTWRITE")
+          EXPORT SYMBOL("TXTCLOFILE")
+          EXPORT SYMBOL("TXTCRTFILE")
+     ENDPGMEXP  
