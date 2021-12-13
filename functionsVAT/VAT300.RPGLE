@@ -1,82 +1,82 @@
-     h nomain
+**FREE
+// ----------------------------------------------------------------------
+// Example conversion of source to RPG Free form
+//     done by Arcad Transformer RPG
+//     with a temporary free trial license    ( 2 / 10 )
+//     submitted by REINHARD      2021-10-21    15.27.02
+// (C) Copyright 1992,2015 ARCAD Software
+// note : these comments do not appear with a permanent license
+// ----------------------------------------------------------------------
+Ctl-Opt nomain;
 
-     FVATDEF    if   e           k disk    usropn
+Dcl-F VATDEF     Keyed usropn;
 
-      /copy 'VAT.RPGLEINC'
+/copy QPROTOSRC/VAT
 
-     d chainVATDEF     pr
-     D P_VATCODE                      1A    value
+Dcl-Pr chainVATDEF;
+  P_VATCODE       Char(1)         value;
+End-Pr;
 
-     D K_VATCODE       S                   LIKE(VATCODE)
+Dcl-S K_VATCODE       LIKE(VATCODE);
 
-     C     kf            klist
-     C                   KFLD                    K_VATCODE
+//=============================================
+Dcl-Proc GetVATRate export;
+  Dcl-Pi GetVATRate Packed(4:2);
+    P_VATCODE       Char(1)         value;
+  End-Pi;
+  chainVATDEF(P_VATCODE  );
+  return VATRATE;
+End-Proc GetVATRate;
+//=============================================
+Dcl-Proc GetVATDesc export;
+  Dcl-Pi GetVATDesc Char(20);
+    P_VATCODE       Char(1)         value;
+  End-Pi;
+  chainVATDEF(P_VATCODE  );
+  return VATDESC;
+End-Proc GetVATDesc;
 
-      *=============================================
-     PGetVATRate       B                     export
-     DGetVATRate       PI             4P 2
-     D P_VATCODE                      1A    value
-      /free
-         chainVATDEF(P_VATCODE  );
-         return VATRATE;
-      /end-free
-     pGetVATRate       e
-      *=============================================
-     PGetVATDesc       B                     export
-     DGetVATDesc       PI            20A
-     D P_VATCODE                      1A    value
-      /free
-         chainVATDEF(P_VATCODE  );
-         return VATDESC;
-      /end-free
-     pGetVATDesc       e
+//=============================================
+Dcl-Proc ClcVAT export;
+  Dcl-Pi ClcVAT Packed(9:2);
+    P_VATCODE       Char(1)         value;
+    Net             Packed(9:2)     value;
+  End-Pi;
 
-      *=============================================
-     P ClcVAT          B                     export
-     D ClcVAT          PI             9  2
-     D P_VATCODE                      1     value
-     d Net                            9  2  value
+  Dcl-S tot             Packed(11:4);
+  chainVATDEF(P_VATCODE  );
+  tot = (net * vatrate) / 100;
+  return %dech(tot : 9 :2) ;
+End-Proc ClcVAT;
 
-     d tot             s             11  4
-      /free
-         chainVATDEF(P_VATCODE  );
-         tot = (net * vatrate) / 100;
-         return %dech(tot : 9 :2) ;
-      /end-free
-     p ClcVAT          e
+//=============================================
+Dcl-Proc ExistVATRate export;
+  Dcl-Pi ExistVATRate Ind;
+    P_VATCODE       Char(1)         value;
+  End-Pi;
+  chainVATDEF(P_VATCODE  );
+  return %found(VATDEF) and VATDEL <> 'X';
+End-Proc ExistVATRate;
 
-      *=============================================
-     P ExistVATRate    B                     export
-     D ExistVATRate    PI              n
-     D P_VATCODE                      1A    value
-      /free
-         chainVATDEF(P_VATCODE  );
-         return %found(VATDEF) and VATDEL <> 'X';
-      /end-free
-     p ExistVATRate    e
+Dcl-Proc chainVATDEF;
+  Dcl-Pi chainVATDEF;
+    P_VATCODE       Char(1)         value;
+  End-Pi;
+ if not %open(VATDEF);
+   open VATDEF;
+ endif;
+  if P_VATCODE <> VATCODE;
+    K_VATCODE =  P_VATCODE;
+    clear *all FVAT;
+    chain K_VATCODE VATDEF;
+  endif;
+End-Proc chainVATDEF;
 
-     p chainVATDEF     b
-     d chainVATDEF     pi
-     D P_VATCODE                      1A    value
-      /free
-        if not %open(VATDEF);
-          open VATDEF;
-        endif;
-         if P_VATCODE <> VATCODE;
-           K_VATCODE =  P_VATCODE;
-           clear *all FVAT;
-           chain kf VATDEF;
-         endif;
-      /end-free
-     p chainVATDEF     e
+Dcl-Proc closeVATDEF;
+  Dcl-Pi closeVATDEF End-Pi;
+ if %open(VATDEF);
+   close VATDEF;
+ endif;
+End-Proc closeVATDEF;
 
-     p closeVATDEF     b
-     d closeVATDEF     pi
-      /free
-        if %open(VATDEF);
-          close VATDEF;
-        endif;
-      /end-free
-     p closeVATDEF     e
-
-
+ 
