@@ -1,5 +1,5 @@
 
-Create Trigger ORD701_Insert_order
+Create Or Replace Trigger ORD701_Insert_order
 After Insert  on order
 Referencing  New As N
 
