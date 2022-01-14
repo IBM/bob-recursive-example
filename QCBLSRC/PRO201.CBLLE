@@ -43,7 +43,7 @@
       *------------*
 
        FD  PROVIDE1.
-       01  PRO-REC.
+       01  PRO-REC
            COPY DDS-FPROV IN PROVIDE1.
 
        FD  PRO201D.
@@ -276,14 +276,14 @@
       * PREPARE PANEL 02 ---------------------
        PRP02.
            MOVE CORRESPONDING SFL01-I TO FMT02-O
-           MOVE DSP TO STEP02
+           MOVE DSP TO STEP02.
 
       * DISPLAY PANEL 02 ---------------------
        DSP02.
 
            WRITE PRO201D-REC FROM FMT02-O FORMAT IS 'FMT02'
            READ PRO201D INTO FMT02-I FORMAT IS 'FMT02'
-           MOVE FKEY TO STEP02
+           MOVE FKEY TO STEP02.
 
       * COMMAND KEYS (EXCEPT CONFIRMATION) 02 ----
        FKEY02.
