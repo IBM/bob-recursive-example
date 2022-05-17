@@ -1,21 +1,27 @@
-
 CREATE OR REPLACE VIEW ORDERCUS (
-  ORID ,
-  ORCUID ,
-  CUSTNM ,
-  ORYEAR ,
-  ORDATE,
-  ORDATDEL,
-  ORDATCLO,
-  TOTVAL )
-  AS
-  SELECT ORID, ORCUID, CUSTNM, ORYEAR,
-         ORDATE,  ORDATDEL, ORDATCLO,
-         COALESCE ( (SELECT SUM(ODTOTVAT)
-                    FROM   DETORD D
-                    WHERE H.ORID = ODORID ), 0) AS TOTVAL
-   FROM  "ORDER" H ,  CUSTOMER
-   WHERE ORCUID = CUID ;
+        ORID,
+        ORCUID,
+        CUSTNM,
+        ORYEAR,
+        ORDATE,
+        ORDATDEL,
+        ORDATCLO,
+        TOTVAL
+    ) AS
+    SELECT ORID,
+           ORCUID,
+           CUSTNM,
+           ORYEAR,
+           ORDATE,
+           ORDATDEL,
+           ORDATCLO,
+           COALESCE((SELECT SUM(ODTOTVAT)
+                       FROM DETORD D
+                       WHERE H.ORID = ODORID),
+               0) AS TOTVAL
+        FROM "ORDER" H,
+             CUSTOMER
+        WHERE ORCUID = CUID;
 
 
 LABEL ON COLUMN ORDERCUS
@@ -29,4 +35,3 @@ LABEL ON COLUMN ORDERCUS
   ORCUID TEXT IS 'CUSTOMER ID' ,
   CUSTNM TEXT IS 'CUSTOMER NAME' ,
   ORYEAR TEXT IS 'YEAR' ) ;
-
