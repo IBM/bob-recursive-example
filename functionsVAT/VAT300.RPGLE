@@ -8,7 +8,7 @@
 // note : these comments do not appear with a permanent license
 // ----------------------------------------------------------------------
 Ctl-Opt nomain;
-
+// file containing Value added tax definitions
 Dcl-F VATDEF     Keyed usropn;
 
 /copy QPROTOSRC/VAT
