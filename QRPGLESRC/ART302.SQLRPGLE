@@ -11,9 +11,11 @@
       /free
          if P_arid <> savId;
            savid = p_arid;
-           exec sql select artinf into :savinfo
-              from artiinf
-              where arid = :savid;
+           EXEC SQL
+             SELECT artinf
+               INTO :savinfo
+               FROM artiinf
+               WHERE arid = :savid;
          endif;
 
          return savinfo;
