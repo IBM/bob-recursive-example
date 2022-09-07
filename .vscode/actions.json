@@ -1,18 +1,20 @@
-[{
-    "command": "makei build -e lib1=BOBBUILD1",
-    "deployFirst": true,
-    "environment": "pase",
-    "extensions": [
-        "GLOBAL"
-    ],
-    "name": "bob build"
-},
-{
-"command": "err=*EVENTF makei compile -f &BASENAME -e lib1=BOBBUILD ",
-"deployFirst": true,
-"environment": "pase",
-"extensions": [
-    "GLOBAL"
-],
-"name": "bob compile"}
+[
+    {
+        "command": "err=*EVENTF lib1=&CURLIB makei build",
+        "deployFirst": true,
+        "environment": "pase",
+        "extensions": [
+            "GLOBAL"
+        ],
+        "name": "bob build"
+    },
+    {
+        "command": "err=*EVENTF makei compile -f &BASENAME -e lib1=&CURLIB",
+        "deployFirst": true,
+        "environment": "pase",
+        "extensions": [
+            "GLOBAL"
+        ],
+        "name": "bob compile"
+    }
 ]
