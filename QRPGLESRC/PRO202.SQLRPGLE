@@ -5,8 +5,8 @@
      F                                     sfile(sfl01:rrn01)
      F                                     Infds(Info)
 
-      /copy qprotosrc/xml
-      /copy qprotosrc/parameter
+      /copy xml
+      /copy parameter
 
      d pro202          pr
      d  id                                 like(prid)

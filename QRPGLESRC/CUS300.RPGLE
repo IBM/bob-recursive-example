@@ -2,7 +2,7 @@
 
      FCUSTOME1  if   e           k disk    usropn
 
-      /copy qprotosrc/customer
+      /copy customer
 
      d chainCUSTOME1   pr
      D P_CUID                         5  0  value

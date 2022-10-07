@@ -2,7 +2,7 @@
 
      FCOUNTRY   if   e           k disk    usropn
 
-      /copy QPROTOSRC/COUNTRY
+      /copy COUNTRY
 
      d chainCOUNTRY    pr
      D P_COID                         2A    value

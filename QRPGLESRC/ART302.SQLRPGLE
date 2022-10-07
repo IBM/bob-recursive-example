@@ -1,6 +1,6 @@
      h nomain
 
-      /copy qprotosrc/article
+      /copy article
 
      d savInfo         s           1520
      d savId           s              6

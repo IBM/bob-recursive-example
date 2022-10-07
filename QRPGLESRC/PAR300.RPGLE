@@ -2,7 +2,7 @@
 
      FPARAMETER if   e           k disk    usropn
 
-      /copy qprotosrc/PARAMETER
+      /copy PARAMETER
 
      d chainPARAMETER  pr
      D P_PACODE                      10A    value

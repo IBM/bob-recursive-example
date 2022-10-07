@@ -24,8 +24,8 @@
      D                               10    const
      D                              200
 
-      /copy qprotosrc/xml
-      /copy qprotosrc/txt
+      /copy xml
+      /copy txt
 
      D replacement     ds
      D  aa                           10    dim(64) ctdata perrcd(1)

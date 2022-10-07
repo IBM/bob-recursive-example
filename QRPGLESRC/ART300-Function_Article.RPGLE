@@ -2,7 +2,7 @@
 
      FARTICLE1  if   e           k disk    usropn
 
-      /copy qprotosrc/article
+      /copy article
 
      d chainARTICLE1   pr
      D P_ARID                         6A    value

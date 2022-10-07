@@ -7,8 +7,8 @@
      F                                     sfile(sfl01:rrn01)
      F                                     Infds(Info)
 
-      /copy qprotosrc/provider
-      /copy qprotosrc/article
+      /copy provider
+      /copy article
 
      d art201          pr
      d  arid                               like(aparid)

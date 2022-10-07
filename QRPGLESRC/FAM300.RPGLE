@@ -2,7 +2,7 @@
 
      FFAMILLY   if   e           k disk    usropn
 
-      /copy qprotosrc/FAMILLY
+      /copy FAMILLY
 
      d chainFAMILLY    pr
      D P_FAID                         3     value

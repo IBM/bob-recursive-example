@@ -12,9 +12,9 @@
      F                                     sfile(sfl01:rrn01)
      F                                     Infds(Info)
 
-      /copy qprotosrc/customer
-      /copy qprotosrc/article
-      /copy qprotosrc/vat
+      /copy customer
+      /copy article
+      /copy vat
 
      d  ord100         pr
      d   cuid                              options(*NOPASS)

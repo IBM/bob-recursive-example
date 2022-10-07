@@ -7,7 +7,7 @@
      D INFO            DS
      D  LRRN                 378    379B 0
 
-      /copy qprotosrc/customer
+      /copy customer
 
      D indds           ds
      D  help                   1      1n

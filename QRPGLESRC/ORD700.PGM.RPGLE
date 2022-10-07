@@ -2,7 +2,7 @@
 
      Farticle1  UF   E           K DISK
 
-      /copy qprotosrc/LOG_functions
+      /copy LOG_functions
 
      d UpdArt          pr
      d   qty                          5  0 value

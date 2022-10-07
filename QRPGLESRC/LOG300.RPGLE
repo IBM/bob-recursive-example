@@ -2,8 +2,8 @@
 
      h nomain
 
-      /copy qprotosrc/APICALL-Prototypes_for_Ibm_API
-      /copy qprotosrc/LOG_functions
+      /copy APICALL-Prototypes_for_Ibm_API
+      /copy LOG_functions
      d init            pr
 
      d pos             s             10i 0 based(p1)

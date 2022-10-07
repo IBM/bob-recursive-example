@@ -3,9 +3,9 @@
   "description": "SAMPLE PROJECT",
   "objlib": "&lib1",
   "curlib": "&lib1",
-  "includePath": ["QPROTOSRC"],
-  "preUsrlibl": ["&lib1"],
+  "includePath": ["includes", "QPROTOSRC"],
+  "preUsrlibl": [],
   "postUsrlibl": [],
   "setIBMiEnvCmd": [],
-  "repository": "https://github.com/edmundreinhardt/bob-recursive-example"
+  "repository": "https://github.com/edmundreinhardt/bob-recursive-example.git"
 }
