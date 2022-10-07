@@ -11,7 +11,7 @@ Ctl-Opt nomain;
 
 Dcl-F VATDEF     Keyed usropn;
 
-/copy QPROTOSRC/VAT
+/copy VAT
 
 Dcl-Pr chainVATDEF;
   P_VATCODE       Char(1)         value;
