@@ -1,7 +1,7 @@
 /*%%TEXT Create new order with parameter */
 /*%%OBJECT-TYPE *PGM                     */
 PGM        PARM(&CUID)
-             DCL        VAR(&CUID) TYPE(*DEC) LEN(5 0)
+             INCLUDE    SRCSTMF('included.clle') 
              DLTF       FILE(QTEMP/DETORD)
              MONMSG     MSGID(CPF0000)
              CRTDUPOBJ  OBJ(DETORD) FROMLIB(*LIBL) OBJTYPE(*FILE) +
