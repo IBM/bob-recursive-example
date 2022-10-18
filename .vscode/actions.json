@@ -1,6 +1,6 @@
 [
     {
-        "command": "err=*EVENTF lib1=&CURLIB makei build",
+        "command": "err=*EVENTF lib1=&CURLIB ~/bob/scripts/makei build",
         "deployFirst": true,
         "environment": "pase",
         "extensions": [
@@ -9,7 +9,7 @@
         "name": "bob build"
     },
     {
-        "command": "err=*EVENTF makei compile -f &BASENAME -e lib1=&CURLIB",
+        "command": "err=*EVENTF ~/bob/scripts/makei compile -f &BASENAME -e lib1=&CURLIB",
         "deployFirst": true,
         "environment": "pase",
         "extensions": [
