@@ -10,7 +10,7 @@
      A*%%TS  SD  20161104  162149  VTAQUIN     REL-V7R1M0  5770-WDS
      A  33                                  SFLNXTCHG
      A            OPT01          2Y 0B  7  3
-     A  34                                  XSPATR(RI)
+     A  34                                  DSPATR(RI)
      A  34                                  DSPATR(PC)
      A                                      EDTCDE(Z)
      A            COID      R        O  7  7REFFLD(FCOUN/COID *LIBL/COUNTRY)
