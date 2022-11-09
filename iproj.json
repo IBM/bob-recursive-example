@@ -4,7 +4,7 @@
   "objlib": "&lib1",
   "curlib": "&lib1",
   "includePath": ["includes", "QPROTOSRC"],
-  "preUsrlibl": [],
+  "preUsrlibl": ["&lib1"],
   "postUsrlibl": [],
   "setIBMiEnvCmd": [],
   "repository": "https://github.com/edmundreinhardt/bob-recursive-example.git"
