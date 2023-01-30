@@ -1,4 +1,4 @@
-
+     
 /* Have to delete the BNDDIR, or it will always be older than the source */
 /* because the CRTBNDDIR will fail the second time and only the ADDBNDDIRE is executed */     
 DLTOBJ OBJ(&O/&N) OBJTYPE(*BNDDIR)
