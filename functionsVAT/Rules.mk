@@ -3,8 +3,10 @@
 # 'common' directory
 
 FVAT.SRVPGM: fvat.bnd VAT300.MODULE
-FVAT.SRVPGM: TEXT = Functions VAT
+FVAT.SRVPGM: private TEXT = Functions VAT
 
 VAT300.MODULE: vat300.rpgle vat.rpgleinc VATDEF.FILE
+VAT300.MODULE: private TEXT := bound into FVAT.SRVPGM
+VAT300.MODULE: private DBGVIEW ::= *SOURCE
 
 VATDEF.FILE: vatdef.pf SAMREF.FILE
