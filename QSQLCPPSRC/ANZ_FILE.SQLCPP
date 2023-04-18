@@ -1,0 +1,668 @@
+
+/**********************************************************************/
+/*                                                                    */
+/*                    INCLUDE-SECTION                                 */
+/*                                                                    */
+/**********************************************************************/
+
+#include <stdio.h>
+#include <recio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <sys/errno.h>
+
+#include <stdarg.h>
+#include <qmhsndm.h>
+#include <qmhsndpm.h>
+#include <qusec.h>
+
+typedef struct us_EC
+{
+  int  Bytes_Provided;
+  int  Bytes_Available;
+  char Exception_Id[7];
+  char Reserved;
+  char Exception_Data[1000];
+} us_EC_t;
+
+#define _CALLSTACK "*         "
+
+exec sql include SQLCA;
+
+exec sql begin declare section;
+static unsigned char
+              shortname[10],
+              longname[128],
+              inputfilename[128],
+              tempfilename[128],
+              libname[11],
+              templibname[11],
+              filetype[2],
+              namequoted,
+              cst_long_lib[128],
+              cst_long_name[128],
+              cst_lib[11],
+              cst_name[11],
+              cst_type[12],
+              cst_key_name[11],
+              cst_key_long_name[128],
+              idx_name[11],
+              idx_lib[11],
+              idx_long_name[128],
+              idx_quoted,
+              idx_unq,
+              idx_key_name[11],
+              idx_key_long_name[128],
+              idx_key_quoted,
+              idx_key_ord_seq,
+              view_name[11],
+              view_lib[11],
+              view_long_name[128],
+              view_quoted,
+              buffer[132],
+              file_length,
+              output,
+              ifsFile[80],
+              *ptr,
+              done;
+
+struct VARCHAR {
+  short len;
+  char  view_dfn[10000];
+  } v_view_dfn;
+
+short
+         i,
+         cst_key_order,
+         idx_key_flds,
+         idx_key_order,
+         idx_key_pos;
+
+#define __BLANK ' '
+
+static void declare_cursors(void);
+static void find_short_name(void);
+static void find_long_name(void);
+static void process_view(void);
+static void find_constraints(void);
+static void find_indexes(void);
+static void find_views(void);
+static void find_cst_keys(void);
+static void find_idx_keys(void);
+exec sql end declare section;
+
+
+static startMsgKey[4+1];
+static void sndMsg(char *	msgText)
+{
+  us_EC_t	Error_Code;
+
+  /* QMHSNDPM */
+  int		msgLen;
+
+  msgLen=strlen(msgText);
+  while (msgLen > 0 && msgText[msgLen-1] == '\n')
+    msgLen--;
+  Error_Code.Bytes_Provided=sizeof(Error_Code);
+  QMHSNDPM("       ","                    ",
+	   msgText,
+	   msgLen,
+	   "*INFO     ",
+	   _CALLSTACK,
+	   0,
+	   startMsgKey,
+	   &Error_Code);
+}
+
+
+/* output
+   S = stdout
+   I = IFS file
+   P = spool file (not supported yet)
+   J = joblog
+   */
+static FILE *   fd = NULL;
+static char     myPrintfBuffer[1024];
+static void myPrintf(char *  format,
+                     ...)
+{
+  va_list	ap;
+  va_start(ap,  format);
+  vsprintf(myPrintfBuffer, format, ap);
+  va_end(ap);
+
+  if (output == 'S' || output == 'I')
+    fprintf(fd, "%s", myPrintfBuffer);
+  else if (output == 'J')
+    sndMsg(myPrintfBuffer);
+  else
+    fprintf(stderr, "%s", myPrintfBuffer);
+}
+
+
+
+
+/**********************************************************************/
+/*                                                                    */
+/**********************************************************************/
+int main(int argc, char *argv[])
+{
+   memcpy(libname, argv[1], 10);
+   ptr = (unsigned char *) strstr((const char *) libname, " ");
+   if (ptr != NULL)
+     ptr[0] = '\0';
+   memcpy(inputfilename, argv[2], 128);
+   ptr = (unsigned  char *) strstr((const char *) inputfilename, " ");
+   if (ptr != NULL)
+     ptr[0] = '\0';
+   file_length =  argv[3][0];
+   output = toupper(argv[4][1]);	/* *SCREEN, *IFS, *PRINT, or *JOBLOG */
+   if (output == 'I')
+   {
+     int len=sizeof(ifsFile);
+     memcpy(ifsFile, argv[5], len);
+     len--;
+     while (ifsFile[len] == ' ')
+       ifsFile[len--]=0x00;
+   }
+   if (output == 'I')
+   {
+     if ((fd = fopen((const char *) ifsFile, "w")) == NULL)
+       fprintf(stderr, "Cannot open %s.  errno=%d\n", ifsFile, errno);
+   }
+   else
+     fd = stdout;
+
+   EXEC SQL WHENEVER SQLERROR GO TO sql_error;
+
+   declare_cursors();
+   done = 'N';
+   if (file_length == 'L')
+     {
+       if (inputfilename[0] == '"')
+       {
+        memcpy(tempfilename, &inputfilename[1],(strlen((const char *) inputfilename) - 2));
+        memcpy(inputfilename, tempfilename,(strlen((const char *) tempfilename)+1));
+       }
+       find_short_name();
+     }
+   else
+      find_long_name();
+   if (done == 'N')                 /* Must have been a 'good' name */
+   {
+     if (strncmp((const char *) filetype,"VW",2) == 0)
+       process_view();
+     else
+     {
+       find_constraints();
+       find_indexes();
+       find_views();
+     }
+   }
+   if (output == 'I')
+     fclose(fd);
+
+sql_error:
+ {
+  EXEC SQL WHENEVER SQLERROR CONTINUE;
+  }
+
+   if (output == 'S')
+  {
+    char dummy[10];
+    gets(dummy);
+  }
+}
+
+
+/******************************************************************************/
+/* find_short_name                                                     ********/
+/******************************************************************************/
+void find_short_name()
+{
+   EXEC SQL OPEN  GET_SHORT_NAME;
+   EXEC SQL FETCH GET_SHORT_NAME INTO :shortname,:namequoted,:filetype;
+   myPrintf("===============================================================\n");
+   if (SQLCODE == 0)                      /* Found the file name   */
+     {
+       if (namequoted == 'Y')
+         {
+           myPrintf("Long file name:  %s/\"%s\"\n", libname, inputfilename);
+           myPrintf("Short file name: %s/%s\n", libname, shortname);
+         }
+       else
+         {
+           myPrintf("Long file name:  %s/%s\n", libname, inputfilename);
+           myPrintf("Short file name: %s/%s\n", libname, shortname);
+         }
+     }
+   else                                   /* No filename found     */
+     {
+       myPrintf("No short name found for %s/%s\n", libname, inputfilename);
+       done = 'Y';
+     }
+   myPrintf("\n");
+   EXEC SQL CLOSE GET_SHORT_NAME;
+
+}
+
+/******************************************************************************/
+/* find_long_name                                                      ********/
+/******************************************************************************/
+void find_long_name()
+{
+   EXEC SQL OPEN  GET_LONG_NAME;
+   EXEC SQL FETCH GET_LONG_NAME INTO :longname,:namequoted,:filetype;
+   myPrintf("===============================================================\n");
+   if (SQLCODE == 0)                      /* Found the file name   */
+     {
+       if (namequoted == 'Y')
+         {
+           myPrintf("Long file name:  %s/\"%s\"\n", libname, longname);
+           myPrintf("Short file name: %s/%s\n", libname, inputfilename);
+         }
+       else
+         {
+           myPrintf("Long file name:  %s/%s\n", libname, longname);
+           myPrintf("Short file name: %s/%s\n", libname, inputfilename);
+         }
+     }
+   else                                   /* No filename found     */
+     {
+       myPrintf("No long name found for %s/%s\n", libname, inputfilename);
+       done = 'Y';
+     }
+   myPrintf("\n");
+   EXEC SQL CLOSE GET_LONG_NAME;
+   memcpy(shortname, inputfilename, 10);
+
+}
+
+/******************************************************************************/
+/* process_view                                                        ********/
+/******************************************************************************/
+void process_view()
+{
+   unsigned char  found_dep_files = 'N';
+   unsigned char  more_dep_files = 'N';
+
+   EXEC SQL OPEN  GET_VIEW_DFN;
+   EXEC SQL FETCH GET_VIEW_DFN INTO :v_view_dfn;
+   if (SQLCODE == 0)
+   {
+     i = 0;
+     myPrintf("View definition:\n");
+     while (i < v_view_dfn.len)
+     {
+       myPrintf("%.72s\n",&v_view_dfn.view_dfn[i]);
+       i = i + 72;
+     }
+     myPrintf("\n");
+
+     memcpy(tempfilename, inputfilename, 10);
+     memcpy(templibname, libname, 10);
+     EXEC SQL OPEN  GET_VIEW_DEP_FILES;
+     EXEC SQL FETCH GET_VIEW_DEP_FILES into
+        :inputfilename,:libname;
+     if (SQLCODE == 0)
+     {
+        more_dep_files = 'Y';
+        found_dep_files = 'Y';
+        myPrintf("Dependent files follow:\n");
+     }
+     while (more_dep_files == 'Y')           /* Found a view dep file */
+     {
+       find_long_name();
+       find_constraints();
+       find_indexes();
+       EXEC SQL FETCH GET_VIEW_DEP_FILES into
+         :inputfilename,:libname;
+       if (SQLCODE == 0)
+         more_dep_files = 'Y';
+       else
+         more_dep_files = 'N';
+     }
+     memcpy(inputfilename, tempfilename,10);
+     memcpy(libname, templibname, 10);
+     if (found_dep_files == 'N')
+       if (namequoted == 'Y')
+       {
+         myPrintf("No view dependent files found for %s/\"%s\"\n",
+                 libname,inputfilename);
+       }
+       else
+       {
+         myPrintf("No view dependent files found for %s/%s\n",
+                 libname, inputfilename);
+       }
+     myPrintf("\n");
+     EXEC SQL CLOSE GET_VIEW_DEP_FILES;
+   }
+   EXEC SQL CLOSE GET_VIEW_DFN;
+ }
+
+/******************************************************************************/
+/* find_constraints                                                    ********/
+/******************************************************************************/
+void find_constraints()
+{
+   unsigned char  found_constraints = 'N';
+   unsigned char  more_constraints = 'N';
+
+   EXEC SQL OPEN  GET_CST_NAME;
+   EXEC SQL FETCH GET_CST_NAME INTO
+       :cst_long_lib, :cst_long_name, :cst_lib, :cst_name, :namequoted,
+       :cst_type;
+   if (SQLCODE == 0)
+   {
+      more_constraints = 'Y';
+      found_constraints = 'Y';
+    }
+   while (more_constraints == 'Y')           /* Found a constraint    */
+     {
+       if (namequoted == 'Y')
+         {
+           myPrintf("Long constraint name:  %s/\"%s\"\n", cst_long_lib,
+                   cst_long_name);
+           myPrintf("Short constraint name: %s/%s\n", cst_lib, cst_name);
+           myPrintf("Constraint type %s\n", cst_type);
+         }
+       else
+         {
+           myPrintf("Long constraint name:  %s/%s\n", cst_long_lib,
+                   cst_long_name);
+           myPrintf("Short constraint name: %s/%s\n", cst_lib, cst_name);
+           myPrintf("Constraint type %s\n", cst_type);
+         }
+       find_cst_keys();
+       EXEC SQL FETCH GET_CST_NAME INTO
+          :cst_long_lib, :cst_long_name, :cst_lib, :cst_name, :namequoted,
+          :cst_type;
+       if (SQLCODE == 0)
+         more_constraints = 'Y';
+       else
+         more_constraints = 'N';
+     }
+     if (found_constraints == 'N')
+       if (namequoted == 'Y')
+       {
+         myPrintf("No constraint found for %s/\"%s\"\n", libname,inputfilename);
+       }
+       else
+       {
+         myPrintf("No constraint found for %s/%s\n", libname, inputfilename);
+       }
+   myPrintf("\n");
+
+   EXEC SQL CLOSE GET_CST_NAME;
+}
+
+/******************************************************************************/
+/* find_cst_keys                                                       ********/
+/******************************************************************************/
+void find_cst_keys()
+{
+   unsigned char  found_constraint_keys = 'N';
+   unsigned char  more_constraint_keys = 'N';
+   EXEC SQL OPEN  GET_CST_KEYS;
+   EXEC SQL FETCH GET_CST_KEYS INTO
+     :cst_key_order, :cst_key_name, :cst_key_long_name;
+   if (SQLCODE == 0)
+   {
+      more_constraint_keys = 'Y';
+      found_constraint_keys = 'Y';
+      myPrintf("Key #  Short name   Long name\n");
+   }
+   while (more_constraint_keys == 'Y')           /* Found a constraint key    */
+     {
+       myPrintf("%5d  %s  %s\n", cst_key_order,cst_key_name, cst_key_long_name);
+        EXEC SQL FETCH GET_CST_KEYS INTO
+          :cst_key_order, :cst_key_name, :cst_key_long_name;
+        if (SQLCODE == 0)
+          more_constraint_keys = 'Y';
+        else
+          more_constraint_keys = 'N';
+     }
+     if (found_constraint_keys == 'N')
+     {
+       myPrintf("No constraint keys found for constraint %s\n", cst_long_name);
+     }
+   myPrintf("\n");
+   EXEC SQL CLOSE GET_CST_KEYS;
+}
+
+/******************************************************************************/
+/* find_indexes                                                        ********/
+/******************************************************************************/
+void find_indexes()
+{
+   unsigned char  found_indexes = 'N';
+   unsigned char  more_indexes = 'N';
+
+   EXEC SQL OPEN  GET_IDX_NAME;
+   EXEC SQL FETCH GET_IDX_NAME INTO
+       :idx_name, :idx_lib, :idx_long_name, :idx_quoted, :idx_unq,:idx_key_flds;
+   if (SQLCODE == 0)
+   {
+      more_indexes = 'Y';
+      found_indexes = 'Y';
+    }
+   while (more_indexes == 'Y')           /* Found an index        */
+     {
+       if (idx_quoted == 'Y')
+       {
+         myPrintf("Long index name %s/\"%s\"\n", idx_lib,
+                 idx_long_name);
+       }
+       else
+       {
+         myPrintf("Long index name %s/%s\n", idx_lib,
+                 idx_long_name);
+       }
+       myPrintf("Short index name %s/%s\n", idx_lib, idx_name);
+       switch(idx_unq)
+       {
+         case('D'): myPrintf("Index unique - No\n");
+                    break;
+         case('V'): myPrintf("Index unique - Yes (allow null duplicates)\n");
+                    break;
+         case('U'): myPrintf("Index unique - Yes\n");
+                    break;
+         case('E'): myPrintf("Index unique - EVAP\n");
+                    break;
+         default:   myPrintf("Index unique - Unknown\n");
+       }
+       myPrintf("Number of key fields %5d\n", idx_key_flds);
+       find_idx_keys();
+       EXEC SQL FETCH GET_IDX_NAME INTO
+           :idx_name, :idx_lib, :idx_long_name, :idx_quoted,
+           :idx_unq, :idx_key_flds;
+       if (SQLCODE == 0)
+         more_indexes = 'Y';
+       else
+         more_indexes = 'N';
+     }
+     if (found_indexes == 'N')
+       if (namequoted == 'Y')
+       {
+         myPrintf("No indexes found for %s/\"%s\"\n", libname, inputfilename);
+       }
+       else
+       {
+         myPrintf("No indexes found for %s/%s\n", libname, inputfilename);
+       }
+   myPrintf("\n");
+   EXEC SQL CLOSE GET_IDX_NAME;
+}
+
+/******************************************************************************/
+/* find_idx_keys                                                       ********/
+/******************************************************************************/
+void find_idx_keys()
+{
+   unsigned char  found_index_keys = 'N';
+   unsigned char  more_index_keys = 'N';
+   EXEC SQL OPEN  GET_IDX_KEYS;
+   EXEC SQL FETCH GET_IDX_KEYS INTO
+     :idx_key_order, :idx_key_name, :idx_key_long_name,
+     :idx_key_quoted, :idx_key_pos, :idx_key_ord_seq;
+   if (SQLCODE == 0)
+   {
+      more_index_keys = 'Y';
+      found_index_keys = 'Y';
+      myPrintf("Key #  Field Pos  Ordering  Short name Long name\n");
+   }
+   while (more_index_keys == 'Y')           /* Found an index key    */
+     {
+        if (idx_key_quoted == 'Y')
+        {
+          myPrintf("%5d  %5d        %c      %s \"%s\"\n",  idx_key_pos,
+                  idx_key_order, idx_key_ord_seq, idx_key_name, idx_key_long_name);
+        }
+        else
+        {
+          myPrintf("%5d  %5d        %c      %s %s\n",  idx_key_pos,
+                  idx_key_order, idx_key_ord_seq, idx_key_name, idx_key_long_name);
+        }
+        EXEC SQL FETCH GET_IDX_KEYS INTO
+           :idx_key_order, :idx_key_name, :idx_key_long_name,
+           :idx_key_quoted, :idx_key_pos, :idx_key_ord_seq;
+        if (SQLCODE == 0)
+          more_index_keys = 'Y';
+        else
+          more_index_keys = 'N';
+     }
+     if (found_index_keys == 'N')
+     {
+       myPrintf("No index keys found for index %s\n", idx_long_name);
+     }
+   myPrintf("\n");
+   EXEC SQL CLOSE GET_IDX_KEYS;
+}
+
+/******************************************************************************/
+/* find_views                                                          ********/
+/******************************************************************************/
+void find_views()
+{
+   unsigned char  found_views = 'N';
+   unsigned char  more_views = 'N';
+
+   EXEC SQL OPEN  GET_VIEW_NAME;
+   EXEC SQL FETCH GET_VIEW_NAME INTO
+       :view_name, :view_lib, :view_long_name, :view_quoted;
+   if (SQLCODE == 0)
+   {
+      more_views = 'Y';
+      found_views = 'Y';
+    }
+   while (more_views == 'Y')           /* Found a view          */
+     {
+       if (view_quoted == 'Y')
+       {
+         myPrintf("Long view name %s/\"%s\"\n", view_lib,
+                 view_long_name);
+       }
+       else
+       {
+         myPrintf("Long view name %s/%s\n", view_lib,
+                 view_long_name);
+       }
+       myPrintf("Short view name %s/%s\n", view_lib, view_name);
+       myPrintf("\n");
+       EXEC SQL FETCH GET_VIEW_NAME INTO
+           :view_name, :view_lib, :view_long_name, :view_quoted;
+       if (SQLCODE == 0)
+         more_views = 'Y';
+       else
+         more_views = 'N';
+     }
+     if (found_views == 'N')
+       if (namequoted == 'Y')
+       {
+         myPrintf("No views found for %s/\"%s\"\n", libname, inputfilename);
+       }
+       else
+       {
+         myPrintf("No views found for %s/\"%s\"\n", libname, inputfilename);
+       }
+   myPrintf("\n");
+   EXEC SQL CLOSE GET_VIEW_NAME;
+}
+
+/******************************************************************************/
+/* declare cursors                                                     ********/
+/******************************************************************************/
+void declare_cursors()
+{
+
+  EXEC SQL declare GET_SHORT_NAME cursor for
+   SELECT DBXFIL,DBXLFQ, DBXATR FROM QSYS/QADBXREF
+   WHERE DBXLIB = :libname
+   AND DBXLFI = :inputfilename;
+
+  EXEC SQL declare GET_LONG_NAME cursor for
+   SELECT DBXLFI,DBXLFQ, DBXATR FROM QSYS/QADBXREF
+   WHERE DBXLIB = :libname
+   AND DBXFIL = :inputfilename;
+
+  EXEC SQL declare GET_VIEW_DFN cursor for
+    SELECT DBXDFN
+    FROM QSYS/QADBXREF
+    WHERE DBXLIB = :libname
+    AND DBXFIL = :inputfilename;
+
+  EXEC SQL declare GET_VIEW_DEP_FILES cursor for
+    SELECT DBFFIL, DBFLIB
+    FROM QSYS/QADBFDEP
+    WHERE DBFFDP = :shortname;
+
+  EXEC SQL declare GET_CST_NAME cursor for
+   SELECT DBCCN2,DBCCNM,DBCCFL,DBCCFF,DBCCND,STRIP(DBCCTY,TRAILING)
+   FROM QSYS/QADBFCST
+   WHERE DBCCFL = :libname
+   AND DBCCFF = :shortname;
+
+  EXEC SQL declare GET_CST_KEYS cursor for
+   SELECT DBCCWK,DBCCKC,DBILFL
+   FROM QSYS/QADBCCST, QSYS/QADBIFLD
+   WHERE DBCCLN = :libname
+   AND DBCCFN = :shortname
+   AND DBCCKN = :cst_long_name
+   AND DBCCKC = DBIFLD
+   AND DBCCFN = DBIFIL
+   AND DBCCLN = DBILIB
+   ORDER BY DBCCWK;
+
+  EXEC SQL declare GET_IDX_NAME cursor for
+   SELECT DBXFIL, DBXLIB, DBXLFI, DBXLFQ, DBXUNQ, DBXNKF
+   FROM QSYS/QADBXREF, QSYS/QADBFDEP
+   WHERE DBFLIB = :libname
+   AND DBFFIL = :shortname
+   AND DBXFIL = DBFFDP
+   AND DBXATR = 'IX'
+   AND DBXLIB = DBFLDP;
+
+  EXEC SQL declare GET_IDX_KEYS cursor for
+    SELECT INTEGER(DBIPOS),DBIFLD,DBILFL,DBILFQ,INTEGER(DBKPOS),DBKORD
+    FROM QSYS/QADBIFLD, QSYS/QADBKFLD
+    WHERE DBILIB = :idx_lib
+    AND DBIFIL = :idx_name
+    AND DBIFIL = DBKFIL
+    AND DBILIB = DBKLIB
+    AND DBKFLD = DBIFLD
+    AND DBIATR = 'IX'
+    ORDER BY 5;
+
+  EXEC SQL declare GET_VIEW_NAME cursor for
+   SELECT DBFFDP, DBFLDP, DBXLFI, DBXLFQ
+   FROM QSYS/QADBXREF, QSYS/QADBFDEP
+   WHERE DBFLIB = :libname
+   AND DBFFIL = :shortname
+   AND DBXATR = 'VW'
+   AND DBXFIL = DBFFDP
+   AND DBXLIB = DBFLDP;
+
+ }
+
