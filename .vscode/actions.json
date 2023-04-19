@@ -1,6 +1,6 @@
 [
     {
-        "command": "err=*EVENTF lib1=&CURLIB ~/bob/scripts/makei build",
+        "command": "err=*EVENTF lib1=&CURLIB makei build",
         "deployFirst": true,
         "environment": "pase",
         "extensions": [
@@ -9,12 +9,30 @@
         "name": "bob build"
     },
     {
-        "command": "err=*EVENTF ~/bob/scripts/makei compile -f &BASENAME -e lib1=&CURLIB",
+        "command": "err=*EVENTF makei compile -f &BASENAME -e lib1=&CURLIB",
         "deployFirst": true,
         "environment": "pase",
         "extensions": [
             "GLOBAL"
         ],
         "name": "bob compile"
+    },
+    {
+        "command": "err=*EVENTF lib1=&CURLIB ../ibmi-bob/bin/makei build",
+        "deployFirst": true,
+        "environment": "pase",
+        "extensions": [
+            "GLOBAL"
+        ],
+        "name": "test bob build"
+    },
+    {
+        "command": "err=*EVENTF ../ibmi-bob/bin/makei compile -f &BASENAME -e lib1=&CURLIB",
+        "deployFirst": true,
+        "environment": "pase",
+        "extensions": [
+            "GLOBAL"
+        ],
+        "name": "test bob compile"
     }
 ]
