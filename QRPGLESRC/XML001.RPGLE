@@ -212,7 +212,7 @@
        RETURN;
       /END-FREE
      P xmlclose        E
-    êê*-----------------------
+    //*-----------------------
      p chgvar          b
      D chgvar          pi
      D  var                           1    const
@@ -230,7 +230,7 @@
      C                   eval      pos = %scan(var:string:pos + 1)
      C                   enddo
      p                 e
-    êê*-----------------------
+    //*-----------------------
 ** ctdata(aa)
 §&#x00A7;
 °&#x00B0;
