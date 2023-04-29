@@ -6,7 +6,11 @@
         "extensions": [
             "GLOBAL"
         ],
-        "name": "bob build"
+        "name": "bob build",
+        "postDownload": [
+            ".logs/",
+            ".evfevent/"
+            ]
     },
     {
         "command": "err=*EVENTF makei compile -f &BASENAME -e lib1=&CURLIB",
@@ -15,7 +19,11 @@
         "extensions": [
             "GLOBAL"
         ],
-        "name": "bob compile"
+        "name": "bob compile",
+        "postDownload": [
+            ".logs/",
+            ".evfevent/"
+            ]
     },
     {
         "command": "err=*EVENTF lib1=&CURLIB ../ibmi-bob/bin/makei build",
@@ -24,7 +32,11 @@
         "extensions": [
             "GLOBAL"
         ],
-        "name": "test bob build"
+        "name": "test bob build",
+        "postDownload": [
+            ".logs/",
+            ".evfevent/"
+            ]
     },
     {
         "command": "err=*EVENTF ../ibmi-bob/bin/makei compile -f &BASENAME -e lib1=&CURLIB",
@@ -33,6 +45,10 @@
         "extensions": [
             "GLOBAL"
         ],
-        "name": "test bob compile"
+        "name": "test bob compile",
+        "postDownload": [
+            ".logs/",
+            ".evfevent/"
+            ]
     }
 ]
