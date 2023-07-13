@@ -2,5 +2,6 @@
 **/.evfevent
 **/.logs
 
-._.DS_Store
+**/.DS_Store
 .project
+.env
