@@ -1,0 +1,64 @@
+       PROCESS  OPTIONS.
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. VERIFYSQL1.
+         AUTHOR. PHIL MAWBY.
+         INSTALLATION. TORONTO LABORATORY.
+         DATE-WRITTEN. JANUARY 1, 1995.
+         DATE-COMPILED.
+       ENVIRONMENT DIVISION.
+       CONFIGURATION SECTION.
+         SOURCE-COMPUTER. IBM-I.
+         OBJECT-COMPUTER. IBM-I.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  PRINT-LINE  PIC X(37) VALUE
+           "ILE SQL COBOL PROGRAM SUCCESS.".
+       77 ERROR-COUNT PIC 9(3) VALUE ZEROES.
+       01 TEST-VARS.
+          05 A PIC S99.
+          05 B PIC S99.
+          05 C PIC S999999.
+          05 D PIC S99.
+      *
+           EXEC SQL
+           INCLUDE SQLCA
+           END-EXEC.
+      *
+       PROCEDURE DIVISION.
+       TEST1-INIT.
+           EXEC SQL SET :A = 5 END-EXEC.
+           EXEC SQL SET :B = 2 END-EXEC.
+           EXEC SQL SET :D = -5 END-EXEC.
+       TEST-COMPUTE.
+           COMPUTE C = A * B + D.
+           IF A NOT = 5 OR B NOT = 2 OR D NOT = -5 OR C NOT = 5
+            DISPLAY "COMPUTE FAILED FOR THE FOLLOWING:"
+            DISPLAY "A = 5 =" A
+            DISPLAY "B = 2 =" B
+            DISPLAY "D = -5 =" D
+            DISPLAY "Compute: 5 =" C
+            ADD 1 TO ERROR-COUNT.
+       TEST-ADD.
+           ADD A B A B GIVING C.
+           IF C NOT = 14
+            DISPLAY "ADD FAILED FOR THE FOLLOWING:"
+            DISPLAY "Add: 14 =" C
+            ADD 1 TO ERROR-COUNT.
+       TEST-SUBTRACT.
+           SUBTRACT B D FROM A GIVING C.
+           IF C NOT = 8
+            DISPLAY "SUBTRACT FAILED FOR THE FOLLOWING:"
+            DISPLAY "Subtract: 8 =" C
+            ADD 1 TO ERROR-COUNT.
+       TEST-DIVIDE.
+           DIVIDE A BY B GIVING C.
+           IF C NOT = 2 THEN
+            DISPLAY "DIVIDE FAILED FOR THE FOLLOWING:"
+            DISPLAY "Divide: 2 =" C
+            ADD 1 TO ERROR-COUNT.
+       FINISHED-NOW.
+           IF ERROR-COUNT = 0 THEN
+            DISPLAY PRINT-LINE
+           ELSE
+            DISPLAY "PROGRAM FAILED".
+           STOP RUN.
