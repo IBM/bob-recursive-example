@@ -1,0 +1,14 @@
+:WSCST DEVCLASS=TRANSFORM.
+
+    :TRNSFRMTBL.
+    :INITPRT
+      DATA ='00'X.
+    :SPACE
+      DATA ='20'X.
+    :CARRTN
+      DATA ='0D'X.
+    :FORMFEED
+      DATA ='0C'X.
+    :LINEFEED
+      DATA ='0A'X.
+:EWSCST.
