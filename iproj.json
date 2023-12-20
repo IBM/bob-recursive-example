@@ -3,9 +3,15 @@
   "description": "SAMPLE PROJECT",
   "objlib": "&lib1",
   "curlib": "&lib1",
-  "includePath": ["includes", "QPROTOSRC"],
-  "preUsrlibl": ["&lib1"],
+  "includePath": [
+    "includes",
+    "QPROTOSRC"
+  ],
+  "preUsrlibl": [
+    "&lib1"
+  ],
   "postUsrlibl": [],
   "setIBMiEnvCmd": [],
-  "repository": "https://github.com/edmundreinhardt/bob-recursive-example.git"
+  "repository": "https://github.com/edmundreinhardt/bob-recursive-example.git",
+  "compileCommand": "/QOpenSys/pkgs/bin/makei c -f {filename}"
 }
