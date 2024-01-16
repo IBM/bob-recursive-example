@@ -1,4 +1,4 @@
-                //זו דוגמא להערה עם  עברית : remark
+‎                //זו דוגמא להערה עם  עברית : remark
                 dcl-s aString char(50);
                 aString = 'מלל בעברית';
                 aString = 'מלל נוסף בעברית'; //remak with עברית
