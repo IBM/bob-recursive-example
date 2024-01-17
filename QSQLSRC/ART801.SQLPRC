@@ -1,3 +1,7 @@
+--%METADATA                                                      *
+-- %TEXT Update Customer Order Quantity                          *
+--%EMETADATA                                                     *
+
  SET PATH *LIBL ;
 
  CREATE OR REPLACE PROCEDURE UPDATE_ON_CUS_ORD_QTY ( )

@@ -1,3 +1,6 @@
+--%METADATA                                                      *
+-- %TEXT Trigger inserting order date                            *
+--%EMETADATA                                                     *
 
 Create Or Replace Trigger ORD701_Insert_order
 After Insert  on order

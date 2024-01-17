@@ -1,3 +1,6 @@
+--%METADATA                                                      *
+-- %TEXT Articles with total ordered per desc and date           *
+--%EMETADATA                                                     *
 CREATE
 OR REPLACE VIEW ARTLSTDAT (
   ARID,
