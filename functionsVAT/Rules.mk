@@ -3,7 +3,6 @@
 # 'common' directory
 
 FVAT.SRVPGM: fvat.bnd VAT300.MODULE
-FVAT.SRVPGM: TEXT = Functions VAT
 FVAT.SRVPGM: private TEXT = Functions VAT
 
 VAT300.MODULE: vat300.rpgle QPROTOSRC/vat.rpgleinc VATDEF.FILE
