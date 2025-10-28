@@ -1,18 +1,22 @@
 {
   "version": "0.0.1",
   "description": "SAMPLE PROJECT",
-  "objlib": "&lib1",
-  "curlib": "&lib1",
+  "license": "Apache 2.0",
+  "repository": "https://github.com/edmundreinhardt/bob-recursive-example.git",
   "includePath": [
     "includes",
     "QPROTOSRC"
   ],
+  "objlib": "&lib1",
+  "curlib": "&lib1",
   "preUsrlibl": [
-    "&lib1"
+    "&lib1",
+    "RPGUNIT",
+    "QDEVTOOLS"
   ],
   "postUsrlibl": [],
   "setIBMiEnvCmd": [],
-  "repository": "https://github.com/edmundreinhardt/bob-recursive-example.git",
-  "compileCommand": "/QOpenSys/pkgs/bin/makei c -f {filename}",
-  "buildCommand": "/QOpenSys/pkgs/bin/makei build"
+  "buildCommand": "/QOpenSys/pkgs/bin/makei build",
+  "buildObjectCommand": "/QOpenSys/pkgs/bin/makei b -t {object}",
+  "compileCommand": "/QOpenSys/pkgs/bin/makei c -f {filename}"
 }
