@@ -1,0 +1,12 @@
+{
+    "rpgunit": {
+        "rucrtrpg": {
+            "tgtCcsid": "*JOB",
+            "dbgView": "*SOURCE",
+            "rpgPpOpt": "*LVL2",
+            "cOption": [
+                "*EVENTF"
+            ]
+        }
+    }
+}
