@@ -4,6 +4,7 @@
 
 FVAT.SRVPGM: fvat.bnd VAT300.MODULE
 FVAT.SRVPGM: private TEXT = Functions VAT
+FVAT.SRVPGM: private ALWUPD := *NO
 
 VAT300.MODULE: vat300.rpgle QPROTOSRC/vat.rpgleinc VATDEF.FILE
 VAT300.MODULE: private TEXT := bound into FVAT.SRVPGM
