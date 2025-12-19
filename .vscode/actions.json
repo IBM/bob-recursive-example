@@ -6,7 +6,7 @@
         "extensions": [
             "GLOBAL"
         ],
-        "name": "bob build",
+        "name": "tobi build",
         "postDownload": [
             ".logs/",
             ".evfevent/"
@@ -19,33 +19,33 @@
         "extensions": [
             "GLOBAL"
         ],
-        "name": "bob compile",
+        "name": "tobi compile",
         "postDownload": [
             ".logs/",
             ".evfevent/"
             ]
     },
     {
-        "command": "err=*EVENTF lib1=&CURLIB ../ibmi-bob/bin/makei build",
+        "command": "err=*EVENTF lib1=&CURLIB ../ibmi-tobi/bin/makei build",
         "deployFirst": true,
         "environment": "pase",
         "extensions": [
             "GLOBAL"
         ],
-        "name": "test bob build",
+        "name": "test tobi build",
         "postDownload": [
             ".logs/",
             ".evfevent/"
             ]
     },
     {
-        "command": "err=*EVENTF ../ibmi-bob/bin/makei compile -f &BASENAME -e lib1=&CURLIB",
+        "command": "err=*EVENTF ../ibmi-tobi/bin/makei compile -f &BASENAME -e lib1=&CURLIB",
         "deployFirst": true,
         "environment": "pase",
         "extensions": [
             "GLOBAL"
         ],
-        "name": "test bob compile",
+        "name": "test tobi compile",
         "postDownload": [
             ".logs/",
             ".evfevent/"
