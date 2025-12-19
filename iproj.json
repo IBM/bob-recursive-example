@@ -2,7 +2,7 @@
   "version": "0.0.1",
   "description": "SAMPLE PROJECT",
   "license": "Apache 2.0",
-  "repository": "https://github.com/edmundreinhardt/bob-recursive-example.git",
+  "repository": "https://github.com/edmundreinhardt/tobi-example.git",
   "includePath": [
     "includes",
     "QPROTOSRC"
